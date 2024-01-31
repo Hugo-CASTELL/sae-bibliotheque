@@ -19,11 +19,11 @@ class Reservations
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Adherent $adherent = null;
+    private Adherent $adherent;
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Livre $livre = null;
+    private Livre $livre;
 
     public function getId(): ?int
     {

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\EmpruntRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,11 +23,11 @@ class Emprunt
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Adherent $adherent = null;
+    private Adherent $adherent;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Livre $livre = null;
+    private Livre $livre;
 
     public function __construct()
     {

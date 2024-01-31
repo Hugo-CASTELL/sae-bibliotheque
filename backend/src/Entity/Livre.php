@@ -110,7 +110,7 @@ class Livre
 
     public function addCategory(Categorie $category): static
     {
-        if (!$this->categories->contains($category)) {
+        if (!$this->categories->contains($category) && !($this->categories->count() >= 3)) {
             $this->categories->add($category);
         }
 
@@ -119,7 +119,9 @@ class Livre
 
     public function removeCategory(Categorie $category): static
     {
-        $this->categories->removeElement($category);
+        if(!($this->categories->count() <= 1)){
+            $this->categories->removeElement($category);
+        }
 
         return $this;
     }

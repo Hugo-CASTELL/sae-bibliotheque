@@ -163,7 +163,7 @@ class Adherent
 
     public function addReservation(Reservations $reservation): static
     {
-        if (!$this->reservations->contains($reservation)) {
+        if (!$this->reservations->contains($reservation) && !($this->reservations->count() >= 3)) {
             $this->reservations->add($reservation);
             $reservation->setAdherent($this);
         }
