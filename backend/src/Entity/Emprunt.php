@@ -22,8 +22,9 @@ class Emprunt
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $dateRetour = null;
 
-    #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
-    private Collection $adherent;
+    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Adherent $adherent = null;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
@@ -63,26 +64,14 @@ class Emprunt
         return $this;
     }
 
-    /**
-     * @return Collection<int, Adherent>
-     */
-    public function getAdherent(): Collection
+    public function getAdherent(): ?Adherent 
     {
         return $this->adherent;
     }
 
-    public function addAdherent(Adherent $adherent): static
+    public function setAdherent(?Adherent $adherent): static
     {
-        if (!$this->adherent->contains($adherent)) {
-            $this->adherent->add($adherent);
-        }
-
-        return $this;
-    }
-
-    public function removeAdherent(Adherent $adherent): static
-    {
-        $this->adherent->removeElement($adherent);
+        $this->adherent = $adherent;
 
         return $this;
     }

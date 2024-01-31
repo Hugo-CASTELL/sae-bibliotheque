@@ -43,7 +43,7 @@ class Adherent
     #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Reservations::class)]
     private Collection $reservations;
 
-    #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'adherent')]
+    #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'adherent')]
     private Collection $emprunts;
 
     public function __construct()
@@ -195,7 +195,7 @@ class Adherent
     {
         if (!$this->emprunts->contains($emprunt)) {
             $this->emprunts->add($emprunt);
-            $emprunt->addAdherent($this);
+            $emprunt->setAdherent($this);
         }
 
         return $this;
@@ -204,7 +204,9 @@ class Adherent
     public function removeEmprunt(Emprunt $emprunt): static
     {
         if ($this->emprunts->removeElement($emprunt)) {
-            $emprunt->removeAdherent($this);
+            if ($emprunt->getAdherent() === $this) {
+                $emprunt->setAdherent(null);
+            }
         }
 
         return $this;
