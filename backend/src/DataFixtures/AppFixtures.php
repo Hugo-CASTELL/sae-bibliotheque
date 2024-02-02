@@ -80,9 +80,6 @@ class AppFixtures extends Fixture
             $livres->add($livre);
         }
 
-
-
-
         for ($i = 0; $i < 10; $i++) {
             $adherent = new Adherent();
             $adherent
@@ -104,7 +101,8 @@ class AppFixtures extends Fixture
         $defaultuser1 = new Utilisateur();
         $defaultuser1
             ->setEmail('admin@example.com') //TODO
-            ->setPassword('$2y$13$jNflVNn0M8bDtspdhkCpxOxqtl8QIOlye0/HBBtA3SzHH66dhCG0O');
+            ->setPassword('$2y$13$jNflVNn0M8bDtspdhkCpxOxqtl8QIOlye0/HBBtA3SzHH66dhCG0O')
+            ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($defaultuser1);
 
