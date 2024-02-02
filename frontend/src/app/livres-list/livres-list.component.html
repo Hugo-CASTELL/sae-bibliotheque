@@ -1,0 +1,6 @@
+<h2>Liste des livres</h2>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let livre of livres">
+    {{ livre.titre }} ({{ livre.auteurs }})
+  </li>
+</ul>
