@@ -43,10 +43,6 @@ class AdherentCrudController extends AbstractCrudController
                 ->setLabel('Date de naissance'),
             DateField::new('dateAdhesion')
                 ->setLabel('Date d\'adhésion'),
-            AssociationField::new('reservations')
-                ->setLabel('Réservations'),
-            AssociationField::new('emprunts')
-                ->setLabel('Emprunts'),
         ];
     }
 }
