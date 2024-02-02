@@ -67,4 +67,9 @@ class Reservations
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->dateResa->format('Y-m-d H:i:s') . ' ' . $this->adherent . ' ' . $this->livre;
+    }
 }

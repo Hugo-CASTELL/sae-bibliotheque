@@ -81,4 +81,9 @@ class Emprunt
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->id . ' ' . $this->dateEmprunt->format('Y-m-d') . ' ' . $this->dateRetour->format('Y-m-d') . ' ' . $this->adherent . ' ' . $this->livre;
+    }
 }

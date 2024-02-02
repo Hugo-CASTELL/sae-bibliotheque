@@ -8,6 +8,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Utilisateur;
+use App\Entity\Adherent;
+use App\Entity\Auteur;
+use App\Entity\Categorie;
+use App\Entity\Emprunt;
+use App\Entity\Livre;
+use App\Entity\Reservations;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -26,7 +32,14 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::section('Items');
+        yield MenuItem::linkToCrud('Adherents', 'fa fa-user', Adherent::class);
+        yield MenuItem::linkToCrud('Auteur', 'fa fa-user', Auteur::class);
+        yield MenuItem::linkToCrud('Categorie', 'fa fa-user', Categorie::class);
+        yield MenuItem::linkToCrud('Emprunt', 'fa fa-user', Emprunt::class);
+        yield MenuItem::linkToCrud('Livre', 'fa fa-user', Livre::class);
+        yield MenuItem::linkToCrud('Reservations', 'fa fa-user', Reservations::class);
+        yield MenuItem::section('Configuration');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Utilisateur::class);
     }
 }
