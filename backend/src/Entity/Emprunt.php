@@ -29,11 +29,6 @@ class Emprunt
     #[ORM\JoinColumn(nullable: false)]
     private Livre $livre;
 
-    public function __construct()
-    {
-        $this->adherent = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
