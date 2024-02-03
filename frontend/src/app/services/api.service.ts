@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Livre } from '../models/livre';
+import { inputUpdateAccount } from '../models/api/inputUpdateAccount';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,11 @@ export class ApiService {
   // Lister les catégories
   getLivres(): Observable<Livre[]> {
     return this.http.get<Livre[]>(`${this.apiUrl}/books`);
+  }
+
+  updateAccount(data: inputUpdateAccount): Observable<any> {
+    console.log(data);
+    return this.http.put(`${this.apiUrl}/member/submit`, data);
   }
 
 }

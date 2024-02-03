@@ -1,17 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Bibliothèque</a>
-    <div class="collapse navbar-collapse">
+    <a class="navbar-brand" href="#">Bibliothèque</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" routerLink="/livres">Livres</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
       </ul>
+      <span class="navbar-button">
+        <button type="button" class="btn btn-primary">
+          <a class="nav-link" routerLink="/login">Mon compte</a>
+        </button>
+      </span>
     </div>
   </div>
 </nav>
+
 <div class="container mt-4">
   <router-outlet></router-outlet>
 </div>
 
-<router-outlet />

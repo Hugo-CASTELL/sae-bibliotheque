@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LivresListComponent } from './livres-list/livres-list.component';
+import { LoginComponent } from './login/login.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LivresListComponent
+    LivresListComponent,
+    LoginComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

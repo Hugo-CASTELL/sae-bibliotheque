@@ -1,0 +1,22 @@
+<div class="mb-4 row">
+    <h1>Connexion</h1>
+</div>
+<form (ngSubmit)="onSubmit()">
+    <div class="mb-3 row">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" name="email" placeHolder="jeandupont@gmail.com" [(ngModel)]="user.email" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeHolder="********" [(ngModel)]="user.password" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Se connecter</button>
+        </div>
+    </div>
+</form>
