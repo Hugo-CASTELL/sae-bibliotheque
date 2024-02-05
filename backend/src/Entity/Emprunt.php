@@ -7,28 +7,33 @@ use App\Repository\EmpruntRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
-#[ApiResource()]
 class Emprunt
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['emprunt:read', 'adherent:read', 'livre:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['emprunt:read', 'emprunt:write', 'adherent:read', 'livre:read'])]
     private ?\DateTimeImmutable $dateEmprunt = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Groups(['emprunt:read', 'emprunt:write', 'adherent:read', 'livre:read'])]
     private ?\DateTimeImmutable $dateRetour = null;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     private Adherent $adherent;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     private Livre $livre;
 
     public function getId(): ?int
