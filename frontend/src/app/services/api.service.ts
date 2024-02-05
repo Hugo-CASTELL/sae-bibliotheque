@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Livre } from '../models/livre';
 import { inputUpdateAccount } from '../models/api/inputUpdateAccount';
+import { Auteur } from '../models/auteur';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,16 @@ export class ApiService {
 
   // Lister les catégories
   getLivres(): Observable<Livre[]> {
-    return this.http.get<Livre[]>(`${this.apiUrl}/books`);
+    return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }
 
   updateAccount(data: inputUpdateAccount): Observable<any> {
     console.log(data);
     return this.http.put(`${this.apiUrl}/member/submit`, data);
+  }
+
+  getAuteur(id: string): Observable<Auteur> {
+    return this.http.get<Auteur>(`${this.apiUrl}/auteurs/${id}`);
   }
 
 }

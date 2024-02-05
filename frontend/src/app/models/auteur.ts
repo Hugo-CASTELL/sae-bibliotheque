@@ -12,4 +12,7 @@ export class Auteur {
         public photo?: string,
         public description?: string,
     ) {}
+    public toString = () : string => {
+        return `Bar (${this.nom}, ${this.prenom})`;
+    }
 }
