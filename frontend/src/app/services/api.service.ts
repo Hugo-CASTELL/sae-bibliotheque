@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 import { Livre } from '../models/livre';
-import { inputUpdateAccount } from '../models/api/inputUpdateAccount';
+import { inputUpdateAccount } from '../models/api/input/inputUpdateAccount';
+import { inputLogin } from '../models/api/input/inputLogin';
+import { outputLogin } from '../models/api/output/outputLogin';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,12 @@ export class ApiService {
     private http: HttpClient
   ) {}
 
-  // Lister les catégories
+  getToken(data : inputLogin): Observable<outputLogin> {
+    return this.http.post<outputLogin>(`${this.apiUrl}/login_check`,data).pipe();
+  }
+
   getLivres(): Observable<Livre[]> {
+    //return this.http.get<Livre[]>(`${this.apiUrl}/books`).pipe()
     return this.http.get<Livre[]>(`${this.apiUrl}/books`);
   }
 
