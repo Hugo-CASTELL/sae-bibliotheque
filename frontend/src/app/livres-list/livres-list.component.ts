@@ -23,12 +23,12 @@ export class LivresListComponent {
   ngOnInit(): void {
 
     //Récupération des livres
-    this.apiService.getLivres().subscribe((data: any) => {
+    this.apiService.getLivres().subscribe((data: Livre[]) => {
       this.livres = data;
     });
     
     //Récupération des catégories
-    this.apiService.getCategories().subscribe((data: any) => {
+    this.apiService.getCategories().subscribe((data: Categorie[]) => {
       this.categories = data;
     });
   }
@@ -39,8 +39,8 @@ export class LivresListComponent {
 
     //Recherche par titre/auteur
     filteredResults = this.livres.filter(livre => livre.titre?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                                                  livre.auteurs.some(auteur => auteur.nom?.toLocaleLowerCase().includes(this.searchText.toLowerCase())) ||
-                                                  livre.auteurs.some(auteur => auteur.prenom?.toLocaleLowerCase().includes(this.searchText.toLowerCase())) );
+                                                  livre.auteurs.some(auteur => (auteur.nom + " " + auteur.prenom).toLowerCase().includes(this.searchText.toLowerCase())) ||
+                                                  livre.auteurs.some(auteur => (auteur.prenom + " " + auteur.nom).toLowerCase().includes(this.searchText.toLowerCase())));
 
     //Recherche par catégorie
     if(this.selectedCategory) {
