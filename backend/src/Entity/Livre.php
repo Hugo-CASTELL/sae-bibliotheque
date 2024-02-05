@@ -16,23 +16,23 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read'])]
+    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read', 'reservations:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?\DateTimeImmutable $dateSortie = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $photoCouverture = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'livres')]
