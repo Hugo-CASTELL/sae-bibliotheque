@@ -9,21 +9,40 @@ export class AuthService {
 }*/
 
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, catchError, of, switchMap } from 'rxjs';
+import { ApiService } from './api.service';
+import { inputLogin } from '../models/api/input/inputLogin';
+import { outputLogin } from '../models/api/output/outputLogin';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private token: string | null = null;
 
-  login(user: { email: string, password: string }): Observable<boolean> {
-    if (user.email && user.password) {
-      // Appel à l'API pour obtenir le token
-      localStorage.setItem('token','abcdefg')
-      return of(true);
+  constructor(
+    private apiService: ApiService
+  ) {}
+
+  login(input : inputLogin): Observable<boolean> {
+    if (input.username && input.password) {
+      return this.apiService.getToken(input).pipe(
+        switchMap((response: outputLogin) => {
+          if (response) {
+            localStorage.setItem("token", response.token);
+            return of(true);
+          }
+          return of(false);
+        }),
+        catchError(error => {
+          console.error("Error while obtaining token", error);
+          return of(false);
+        })
+      );
+    } else {
+      return of(false);
     }
-    return of(false);
   }
 
   getToken(): string | null {

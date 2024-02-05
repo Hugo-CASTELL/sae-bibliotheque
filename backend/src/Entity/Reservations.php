@@ -6,25 +6,29 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ReservationsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
-#[ApiResource()]
 class Reservations
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservations:read', 'livre:read', 'livre:write', 'adherent:read', 'adherent:write'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['reservations:read', 'reservations:write', 'livre:read', 'livre:write', 'adherent:read', 'adherent:write'])]
     private ?\DateTimeImmutable $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservations:read', 'reservations:write'])]
     private Adherent $adherent;
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservations:read', 'reservations:write'])]
     private Livre $livre;
 
     public function getId(): ?int

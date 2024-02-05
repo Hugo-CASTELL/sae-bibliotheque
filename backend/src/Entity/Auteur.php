@@ -8,38 +8,47 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
-#[ApiResource()]
 class Auteur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['auteur:read', 'livre:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?\DateTimeImmutable $dateNaissance = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?\DateTimeImmutable $dateDeces = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?string $nationalite = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?string $photo = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'auteurs')]
+    #[Groups(['auteur:read'])]
     private Collection $livres;
 
     public function __construct()

@@ -8,23 +8,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
-#[ApiResource()]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['categorie:read', 'livre:read', 'livre:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'categories')]
+    #[Groups(['categorie:read'])]
     private Collection $livres;
 
     public function __construct()
