@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { inputUpdateAccount } from '../models/api/inputUpdateAccount';
+import { inputUpdateAccount } from '../models/api/input/inputUpdateAccount';
 import { ApiService } from '../services/api.service';
 
 @Component({
