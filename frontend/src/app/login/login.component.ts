@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { inputLogin } from '../models/api/input/inputLogin';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  user = {
-    email: '',
-    password: ''
-  };
+  input: inputLogin = { username : "", password : ""}
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     if(this.authService.getToken() != null) {
@@ -20,7 +18,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.authService.login(this.user).subscribe((success) => {
+    this.authService.login(this.input).subscribe((success) => {
       if (success) {
         console.log('Connexion réussie');
         this.router.navigate(['../livres'], { relativeTo: this.route });
