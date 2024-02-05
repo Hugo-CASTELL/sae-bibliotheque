@@ -2,18 +2,18 @@
 <div class="container text-center mx-0">
   <div class="row">
     <div class="col ps-0 pe-0">
-      <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedCategory">
-        <option selected>Catégorie</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </div>
-    <div class="col ml-0 mr-0">
       <div class="input-group">
-        <input type="search" class="form-control" placeholder="Titre, auteur..." aria-label="Search" aria-describedby="search-addon" [(ngModel)]="searchText"/>
+        <input type="search" class="form-control" placeholder="Titre, auteur" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="searchText"/>
         <!--<button type="button" class="btn btn-outline-secondary" data-mdb-ripple-init>🔎︎</button>-->
       </div>
+    </div>
+    <div class="col ml-0 mr-0">
+      <select class="form-select" [(ngModel)]="selectedCategory">
+        <option value="" selected>Sélectionner une catégorie</option>
+        <option value="{{categorie.id}}" *ngFor="let categorie of categories">
+          {{ categorie.nom }} ({{categorie.livres.length}} livres) 
+        </option>
+      </select>
     </div>
   </div>
 </div>
@@ -26,6 +26,9 @@
 
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let livre of filterLivres()">
-    {{ livre.titre }} ({{ livre.auteurs }})
+    {{ livre.titre }} 
+    <div *ngFor="let auteur of livre.auteurs">
+      {{ auteur.nom }} {{ auteur.prenom }}
+    </div>
   </li>
 </ul>
