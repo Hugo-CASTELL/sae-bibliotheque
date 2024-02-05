@@ -8,38 +8,47 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
-#[ApiResource()]
 class Livre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
     private ?\DateTimeImmutable $dateSortie = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
     private ?string $photoCouverture = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'livres')]
+    #[Groups(['livre:read', 'livre:write'])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'livres')]
+    #[Groups(['livre:read', 'livre:write'])]
     private Collection $auteurs;
 
     #[ORM\OneToOne(mappedBy: 'livre', cascade: ['persist', 'remove'])]
+    #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
     #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class)]
+    #[Groups(['livre:read'])]
     private Collection $emprunts;
 
     public function __construct()
