@@ -7,6 +7,7 @@ import { Auteur } from '../models/auteur';
 import { inputUpdateAccount } from '../models/api/input/inputUpdateAccount';
 import { inputLogin } from '../models/api/input/inputLogin';
 import { outputLogin } from '../models/api/output/outputLogin';
+import { Categorie } from '../models/categorie';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,10 @@ export class ApiService {
 
   getAuteur(id: string): Observable<Auteur> {
     return this.http.get<Auteur>(`${this.apiUrl}/auteurs/${id}`);
+  }
+
+  getCategories(): Observable<Categorie[]> {
+    return this.http.get<Categorie[]>(`${this.apiUrl}/categories`)
   }
 
 }

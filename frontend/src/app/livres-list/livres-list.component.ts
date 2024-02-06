@@ -3,6 +3,7 @@ import { Livre } from '../models/livre';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { Auteur } from '../models/auteur';
+import { Categorie } from '../models/categorie';
 
 @Component({
   selector: 'app-livres-list',
@@ -12,37 +13,59 @@ import { Auteur } from '../models/auteur';
 export class LivresListComponent {
   
   livres: Livre[] = [];
-  selectedCategory: string = 'Catégorie';
+  categories: Categorie[] = [];
+  selectedCategory?: string = "";
   searchText: string = '';
-  isAvailable: boolean = true;
+  isAvailable: boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log("ok");
-    this.apiService.getLivres().subscribe((data: any) => {
-      this.livres = data["hydra:member"];
-      
-      /*this.apiService.getAuteur("8").subscribe((data2: any) => {
-        console.log(data2);
-      });*/
 
+    //Récupération des livres
+    this.apiService.getLivres().subscribe((data: Livre[]) => {
+      this.livres = data;
+    });
+    
+    //Récupération des catégories
+    this.apiService.getCategories().subscribe((data: Categorie[]) => {
+      this.categories = data;
     });
   }
 
   filterLivres(): Livre[] {
-    console.log("Recherche");
 
-    this.livres.forEach(livre => {
-      console.log(livre.auteurs);
-    });
+    let filteredResults;
 
-    return this.livres.filter(livre =>
-      /*(this.selectedCategory === 'Catégorie' || livre.categories[0].nom == this.selectedCategory) &&*/
-      (livre.titre?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-       livre.auteurs?.toString().toLowerCase().includes(this.searchText.toLowerCase())) &&
-      (this.isAvailable || livre.emprunts?.length === 0 && livre.reservations === null)
-    );
+    //Recherche par titre/auteur
+    filteredResults = this.livres.filter(livre => livre.titre?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                                                  livre.auteurs.some(auteur => (auteur.nom + " " + auteur.prenom).toLowerCase().includes(this.searchText.toLowerCase())) ||
+                                                  livre.auteurs.some(auteur => (auteur.prenom + " " + auteur.nom).toLowerCase().includes(this.searchText.toLowerCase())));
+
+    //Recherche par catégorie
+    if(this.selectedCategory) {
+      filteredResults = filteredResults.filter(livre => livre.categories.some(categorie => categorie.id == this.selectedCategory));
+    }
+
+    //Recherche par disponibilité
+    if(this.isAvailable) {
+
+      console.log("1/3 : " + filteredResults.length);
+
+      //Le livre ne doit avoir aucune réservation en cours
+      filteredResults = filteredResults.filter(livre => livre.reservations == null);
+
+      console.log("2/3 : " + filteredResults.length);
+
+      //Le livre doit pas être emprunté actuellement
+      let todayDate = new Date();
+      filteredResults = filteredResults.filter(livre => !livre.emprunts?.some(emprunt => (emprunt?.dateRetour) && new Date(emprunt.dateRetour) > todayDate));
+
+      console.log("3/3 : " + filteredResults.length);
+
+    }
+
+    return filteredResults;
   }
 
 }
