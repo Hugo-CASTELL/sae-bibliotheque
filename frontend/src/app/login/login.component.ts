@@ -10,6 +10,7 @@ import { inputLogin } from '../models/api/input/inputLogin';
 })
 export class LoginComponent {
   input: inputLogin = { username : "", password : ""}
+  errorMessage: string = "";
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     if(this.authService.getToken() != null) {
@@ -23,6 +24,7 @@ export class LoginComponent {
         console.log('Connexion réussie');
         this.router.navigate(['../livres'], { relativeTo: this.route });
       } else {
+        this.errorMessage = "Adresse mail ou Mot de passe invalide. Veuillez réessayer";
         console.log('Échec de la connexion');
       }
     });
