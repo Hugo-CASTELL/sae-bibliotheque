@@ -18,12 +18,10 @@ export class LivresListComponent {
   searchText: string = '';
   isAvailable: boolean = false;
   public user: Adherent | null = null;
+  public reservationSuccess: boolean = false;
+  public canReserve: boolean = false;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {
-    this.apiService.getUser().subscribe((response) => {
-      this.user = response.adherent;
-    });
-  }
+  constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
 
@@ -35,6 +33,40 @@ export class LivresListComponent {
     //Récupération des catégories
     this.apiService.getCategories().subscribe((data: Categorie[]) => {
       this.categories = data;
+    });
+
+    // Récupération de l'utilisateur s'il est connecté
+    this.reloadUser();
+  }
+
+  reloadUser(){
+    this.authService.isLogged().subscribe((isLogged) => {
+      if(isLogged) {
+        this.apiService.getUser().subscribe((response) => {
+          // Récupération de l'utilisateur
+          this.user = response.adherent;
+          this.canReserve = this.canReserveBook();
+        });
+      }
+    });
+  }
+
+  canReserveBook() {
+    if(this.user){
+      if(this.user.reservations && this.user.reservations?.length < 3) {
+        // On définit s'il peut réserver un livre
+        return true;
+      }
+    }
+    return false;
+  }
+
+  createReservation(idLivre: any) {
+    this.reservationSuccess = false;
+    this.apiService.createReservation({livre: idLivre}).subscribe(() => {
+      this.reservationSuccess = true;
+      this.reloadUser();
+      console.log(this.canReserve);
     });
   }
 
