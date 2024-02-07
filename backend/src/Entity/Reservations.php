@@ -3,12 +3,21 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Repository\ReservationsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
+#[ApiResource(operations: [
+    new Get(name: 'app_api_user_reservations'),
+    new Post(name: 'app_api_user_reservations_create'),
+    new Get(name: 'app_api_user_reservations_id'),
+    new Delete(name: 'app_api_user_reservations_delete')
+])]
 class Reservations
 {
     #[ORM\Id]

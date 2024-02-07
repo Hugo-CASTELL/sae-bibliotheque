@@ -9,8 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
+#[ApiResource(operations: [
+    new Get(name: 'app_api_livre'),
+    new Get(name: 'app_api_livre_show')
+])]
 class Livre
 {
     #[ORM\Id]

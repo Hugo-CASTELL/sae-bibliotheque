@@ -11,8 +11,10 @@ use App\Entity\Reservations;
 use App\Repository\EmpruntRepository;
 use App\Repository\LivreRepository;
 use App\Repository\ReservationsRepository;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 class ReservationController extends AbstractController
 {
     #[Route('/api/user/reservations', name: 'app_api_user_reservations')]
