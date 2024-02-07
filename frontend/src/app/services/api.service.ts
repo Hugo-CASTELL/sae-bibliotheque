@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable, retry } from 'rxjs';
 
 import { Livre } from '../models/livre';
@@ -8,6 +8,8 @@ import { inputUpdateAccount } from '../models/api/input/inputUpdateAccount';
 import { inputLogin } from '../models/api/input/inputLogin';
 import { outputLogin } from '../models/api/output/outputLogin';
 import { Categorie } from '../models/categorie';
+import { Adherent } from '../models/adherent';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +26,16 @@ export class ApiService {
     return this.http.post<outputLogin>(`${this.apiUrl}/login_check`,data).pipe();
   }
 
+  getUser(): Observable<any> {
+    return this.http.get<Adherent>(`${this.apiUrl}/user/me`, this.getHttpHeader());
+  }
+
   getLivres(): Observable<Livre[]> {
     return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }
 
   updateAccount(data: inputUpdateAccount): Observable<any> {
-    console.log(data);
-    return this.http.put(`${this.apiUrl}/member/submit`, data);
+    return this.http.put(`${this.apiUrl}/user/me/update`, data, this.getHttpHeader());
   }
 
   getAuteur(id: string): Observable<Auteur> {
@@ -39,6 +44,14 @@ export class ApiService {
 
   getCategories(): Observable<Categorie[]> {
     return this.http.get<Categorie[]>(`${this.apiUrl}/categories`)
+  }
+
+  private getHttpHeader(): any {
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // Ajouter le token JWT dans l'en-tête d'autorisation
+      })
+    };
   }
 
 }
