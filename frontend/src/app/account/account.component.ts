@@ -28,8 +28,8 @@ export class AccountComponent {
       }
     });
     this.apiService.getUser().subscribe((response) => {
-      this.user = response;
-      this.mailBeforeUpdate = response.email;
+      this.user = response.adherent;
+      this.mailBeforeUpdate = response.adherent.email;
     });
   }
 
