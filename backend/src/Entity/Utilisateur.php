@@ -27,6 +27,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(mappedBy: 'utilisateur', cascade: ['persist', 'remove'])]
+    private ?Adherent $adherent = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,5 +98,27 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getAdherent(): ?Adherent
+    {
+        return $this->adherent;
+    }
+
+    public function setAdherent(Adherent $adherent): static
+    {
+        // set the owning side of the relation if necessary
+        if ($adherent->getUtilisateur() !== $this) {
+            $adherent->setUtilisateur($this);
+        }
+
+        $this->adherent = $adherent;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->email;
     }
 }
