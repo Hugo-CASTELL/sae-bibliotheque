@@ -14,7 +14,8 @@ use ApiPlatform\Metadata\Get;
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
 #[ApiResource(operations: [
     new Get(name: 'app_api_auteur'),
-    new Get(name: 'app_api_auteur_show')
+    new Get(name: 'app_api_auteur_show'),
+    new Get(name: 'app_api_auteur_livres_search')
 ])]
 class Auteur
 {
