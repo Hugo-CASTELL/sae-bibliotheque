@@ -8,44 +8,55 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AdherentRepository::class)]
-#[ApiResource()]
 class Adherent
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?\DateTimeImmutable $dateAdhesion = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?\DateTimeImmutable $dateNaissance = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $adressePostale = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $numTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private ?string $photo = null;
 
     #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Reservations::class)]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private Collection $reservations;
 
     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'adherent')]
+    #[Groups(['adherent:read', 'adherent:write'])]
     private Collection $emprunts;
 
     public function __construct()

@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 import { Livre } from '../models/livre';
-import { inputUpdateAccount } from '../models/api/inputUpdateAccount';
+import { Auteur } from '../models/auteur';
+import { inputUpdateAccount } from '../models/api/input/inputUpdateAccount';
+import { inputLogin } from '../models/api/input/inputLogin';
+import { outputLogin } from '../models/api/output/outputLogin';
+import { Categorie } from '../models/categorie';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +20,25 @@ export class ApiService {
     private http: HttpClient
   ) {}
 
-  // Lister les catégories
+  getToken(data : inputLogin): Observable<outputLogin> {
+    return this.http.post<outputLogin>(`${this.apiUrl}/login_check`,data).pipe();
+  }
+
   getLivres(): Observable<Livre[]> {
-    return this.http.get<Livre[]>(`${this.apiUrl}/books`);
+    return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }
 
   updateAccount(data: inputUpdateAccount): Observable<any> {
     console.log(data);
     return this.http.put(`${this.apiUrl}/member/submit`, data);
+  }
+
+  getAuteur(id: string): Observable<Auteur> {
+    return this.http.get<Auteur>(`${this.apiUrl}/auteurs/${id}`);
+  }
+
+  getCategories(): Observable<Categorie[]> {
+    return this.http.get<Categorie[]>(`${this.apiUrl}/categories`)
   }
 
 }

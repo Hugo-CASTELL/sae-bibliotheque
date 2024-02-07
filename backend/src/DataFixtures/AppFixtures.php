@@ -20,22 +20,47 @@ class AppFixtures extends Fixture
     private $faker;
 
 
+      
 
     public function load(ObjectManager $manager): void
     {
+        $categoriesfr = [
+            "Science-fiction",
+            "Roman",
+            "Thriller",
+            "Fantasy",
+            "Mystère",
+            "Aventure",
+            "Historique",
+            "Biographie",
+            "Science",
+            "Poésie",
+            "Humour",
+            "Philosophie",
+            "Auto-assistance",
+            "Cuisine",
+            "Art",
+            "Musique",
+            "Drame",
+            "Jeunesse",
+            "Science-fiction",
+            "Horreur",
+            "Suspense",
+        ];
+
         $this->faker = Factory::create();
 
         $categories = [];
         $auteurs = [];
         $livres = new ArrayCollection();
         $adherents = [];
-
+          
         //Create categories
-        for ($i = 0; $i < 10; $i++) {
+        foreach ($categoriesfr as $cat ) {
             $categorie = new Categorie();
             $categorie
-                ->setNom($this->faker->word)
-                ->setDescription($this->faker->sentence(10));
+                ->setNom($cat)
+                ->setDescription($cat ." description");
             $categories[] = $categorie;
             $manager->persist($categorie);
         }
@@ -56,7 +81,7 @@ class AppFixtures extends Fixture
 
         
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $livre = new Livre();
             
             $livre
@@ -125,9 +150,17 @@ class AppFixtures extends Fixture
                     break;
                 }
                 $emprunt = new Emprunt();
+                // Generate random dates
+                $dateEmprunt = \DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear());
+                $dateRetour = \DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear());
+
+                // Ensure the order of dates during random generation
+                if ($dateEmprunt > $dateRetour) {
+                    [$dateEmprunt, $dateRetour] = [$dateRetour, $dateEmprunt];
+                }
                 $emprunt
-                    ->setDateEmprunt(\DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear()))
-                    ->setDateRetour(\DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear()))
+                    ->setDateEmprunt($dateEmprunt)
+                    ->setDateRetour($dateRetour)
                     ->setAdherent($adherent)
                     ->setLivre($livre);
                 $manager->persist($emprunt);
