@@ -11,7 +11,7 @@ import { Categorie } from '../models/categorie';
   styleUrl: './livres-list.component.css'
 })
 export class LivresListComponent {
-  
+
   livres: Livre[] = [];
   categories: Categorie[] = [];
   selectedCategory?: string = "";
@@ -26,7 +26,7 @@ export class LivresListComponent {
     this.apiService.getLivres().subscribe((data: Livre[]) => {
       this.livres = data;
     });
-    
+
     //Récupération des catégories
     this.apiService.getCategories().subscribe((data: Categorie[]) => {
       this.categories = data;

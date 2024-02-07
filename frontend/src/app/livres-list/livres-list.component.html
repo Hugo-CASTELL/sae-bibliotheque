@@ -11,7 +11,7 @@
       <select class="form-select" [(ngModel)]="selectedCategory">
         <option value="" selected>Sélectionner une catégorie</option>
         <option value="{{categorie.id}}" *ngFor="let categorie of categories">
-          {{ categorie.nom }} ({{categorie.livres.length}} livres) 
+          {{ categorie.nom }} ({{categorie.livres.length}} livres)
         </option>
       </select>
     </div>
@@ -24,11 +24,17 @@
   </label>
 </div>
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let livre of filterLivres()">
-    {{ livre.titre }} 
-    <div *ngFor="let auteur of livre.auteurs">
-      {{ auteur.nom }} {{ auteur.prenom }}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3" *ngFor="let livre of filterLivres()">
+      <div class="card m-3">
+        <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
+        <div class="card-body">
+          <h5 class="card-title">{{livre.titre}}</h5>
+          <a [routerLink]="['/livres', livre.id]" class="btn btn-primary">Réserver</a>
+        </div>
+      </div>
     </div>
-  </li>
-</ul>
+  </div>
+</div>
