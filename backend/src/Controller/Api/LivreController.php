@@ -5,8 +5,10 @@ namespace App\Controller\Api;
 use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 class LivreController extends AbstractController
 {
     #[Route('/api/livres', name: 'app_api_livre')]
