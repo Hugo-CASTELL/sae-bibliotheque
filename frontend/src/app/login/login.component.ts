@@ -13,10 +13,11 @@ export class LoginComponent {
   errorMessage: string = "";
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
-    if (localStorage.getItem("token"))
-    {
-      this.router.navigate(['../account'], { relativeTo: this.route });
-    }
+    this.authService.isLogged().subscribe((isLogged) => {
+      if (isLogged) {
+        this.navigateToAccountPage();
+      }
+    });
   }
 
   onSubmit() {
@@ -29,5 +30,9 @@ export class LoginComponent {
         console.log('Échec de la connexion');
       }
     });
+  }
+
+  navigateToAccountPage() {
+    this.router.navigate(['../account'], { relativeTo: this.route });
   }
 }
