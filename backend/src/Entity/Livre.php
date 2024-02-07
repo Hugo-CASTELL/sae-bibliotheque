@@ -43,7 +43,7 @@ class Livre
     #[Groups(['livre:read', 'livre:write'])]
     private Collection $auteurs;
 
-    #[ORM\OneToOne(mappedBy: 'livre', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'livre')]
     #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
