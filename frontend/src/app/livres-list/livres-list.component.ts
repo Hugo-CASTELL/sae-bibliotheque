@@ -58,8 +58,7 @@ export class LivresListComponent {
       console.log("2/3 : " + filteredResults.length);
 
       //Le livre doit pas être emprunté actuellement
-      let todayDate = new Date();
-      filteredResults = filteredResults.filter(livre => !livre.emprunts?.some(emprunt => (emprunt?.dateRetour) && new Date(emprunt.dateRetour) > todayDate));
+      filteredResults = filteredResults.filter(livre => !livre.emprunts?.some(emprunt => emprunt?.dateRetour == null));
 
       console.log("3/3 : " + filteredResults.length);
 
