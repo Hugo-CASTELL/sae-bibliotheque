@@ -4,10 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
 use DateTime;
+use DateTimeImmutable;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 
@@ -21,14 +20,14 @@ class AdherentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            TextField::new('prenom')
+            ->setLabel('Prenom de l\'adherent')
+            ->setMaxLength(255),
             TextField::new('nom')
                 ->setLabel('Nom de l\'adherent')
                 ->setMaxLength(255),
-            TextField::new('prenom')
-                ->setLabel('Prenom de l\'adherent')
-                ->setMaxLength(255),
             TextField::new('email')
-                ->setLabel('eamil de l\'adherent')
+                ->setLabel('Email de l\'adherent')
                 ->setMaxLength(255),
             TextField::new('adressePostale')
                 ->setLabel('Adresse de l\'adherent')
@@ -42,7 +41,18 @@ class AdherentCrudController extends AbstractCrudController
             DateField::new('dateNaissance')
                 ->setLabel('Date de naissance'),
             DateField::new('dateAdhesion')
-                ->setLabel('Date d\'adhésion'),
+                ->setLabel('Date d\'adhésion')
+                ->setFormat('dd-MM-yyyy')
+                ->setRequired(true),
+            AssociationField::new('utilisateur')
+                ->setLabel('Utilisateur de l\'adherent')
         ];
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $adherent = new Adherent();
+        $adherent->setDateAdhesion(new DateTimeImmutable());
+        return $adherent;
     }
 }

@@ -59,6 +59,10 @@ class Adherent
     #[Groups(['adherent:read', 'adherent:write'])]
     private Collection $emprunts;
 
+    #[ORM\OneToOne(inversedBy: 'adherent', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -228,5 +232,17 @@ class Adherent
     public function __toString(): string
     {
         return $this->nom . ' ' . $this->prenom;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
     }
 }
