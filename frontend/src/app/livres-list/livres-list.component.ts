@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Livre } from '../models/livre';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
-import { Auteur } from '../models/auteur';
 import { Categorie } from '../models/categorie';
+import { Adherent } from '../models/adherent';
 
 @Component({
   selector: 'app-livres-list',
@@ -17,8 +17,13 @@ export class LivresListComponent {
   selectedCategory?: string = "";
   searchText: string = '';
   isAvailable: boolean = false;
+  public user: Adherent | null = null;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(private apiService: ApiService, private authService: AuthService) {
+    this.apiService.getUser().subscribe((response) => {
+      this.user = response.adherent;
+    });
+  }
 
   ngOnInit(): void {
 

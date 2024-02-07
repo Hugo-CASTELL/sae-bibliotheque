@@ -32,7 +32,8 @@
         <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
         <div class="card-body">
           <h5 class="card-title">{{livre.titre}}</h5>
-          <a [routerLink]="['/livres', livre.id]" class="btn btn-primary">Réserver</a>
+          <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary">Réserver</button>
+          <button *ngIf="user" [disabled]="!user || (user.reservations && user.reservations.length >= 3)" [routerLink]="['/livres', livre.id]" class="btn btn-primary">Réserver</button>
         </div>
       </div>
     </div>
