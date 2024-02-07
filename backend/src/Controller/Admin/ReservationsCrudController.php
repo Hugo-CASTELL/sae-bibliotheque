@@ -18,14 +18,11 @@ class ReservationsCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $currentDate = new DateTimeImmutable();
-
         return [
             DateTimeField::new('dateResa')
                 ->setLabel('Date de réservation')
                 ->setRequired(true)
-                ->setFormat('dd/MM/yyyy')
-                ->setValue($currentDate),
+                ->setFormat('dd/MM/yyyy'),
             AssociationField::new('adherent')
                 ->setLabel('Adhérent')
                 ->setRequired(true),
@@ -35,6 +32,16 @@ class ReservationsCrudController extends AbstractCrudController
         ];
     }
 
+    public function createEntity(string $entityFqcn)
+    {
+        $currentDate = new DateTimeImmutable();
+
+        $reservation = new Reservations();
+        $reservation->setDateResa($currentDate);
+
+        return $reservation;
+    }
+
     public function persistEntity(EntityManagerInterface $entityManager, $entity): void
     {
         // Récupération du livre et de l'adherent
@@ -42,7 +49,7 @@ class ReservationsCrudController extends AbstractCrudController
         $adherent = $entity->getAdherent();
 
         // Vérification de la disponibilité du livre
-        if ($livre->getDisponible() === false) {
+        if ($livre->isDisponible() === false) {
             $this->addFlash('danger', 'Le livre n\'est pas disponible');
             return;
         }
@@ -53,11 +60,7 @@ class ReservationsCrudController extends AbstractCrudController
         //     return;
         // }
 
-        // Traitement du livre
-        $livre->setDisponible(false);
-
         // Persist et flush
-        $entityManager->persist($livre);
         $entityManager->persist($entity);
         $entityManager->flush();
     }

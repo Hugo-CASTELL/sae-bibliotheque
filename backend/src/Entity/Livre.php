@@ -203,4 +203,14 @@ class Livre
     {
         return $this->titre;
     }
+
+    public function isDisponible(): bool
+    {
+        return $this->reservations === null && $this->emprunts->count() === 0;
+    }
+
+    public function isReservedBy(Adherent $adherent): bool
+    {
+        return $this->reservations !== null & $this->reservations->getAdherent() === $adherent;
+    }
 }
