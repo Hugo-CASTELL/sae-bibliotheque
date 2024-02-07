@@ -13,7 +13,8 @@ export class LoginComponent {
   errorMessage: string = "";
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
-    if(this.authService.getToken() != null) {
+    if (localStorage.getItem("token"))
+    {
       this.router.navigate(['../account'], { relativeTo: this.route });
     }
   }
