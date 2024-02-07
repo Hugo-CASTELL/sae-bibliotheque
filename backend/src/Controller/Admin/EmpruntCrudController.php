@@ -29,7 +29,7 @@ class EmpruntCrudController extends AbstractCrudController
                 ->setFormat('dd/MM/yyyy'),
             DateTimeField::new('dateRetour')
                 ->setLabel('Date de retour')
-                ->setRequired(true)
+                ->setRequired(false)
                 ->setFormat('dd/MM/yyyy'),
             AssociationField::new('adherent')
                 ->setLabel('Adhérent')
@@ -43,12 +43,10 @@ class EmpruntCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $currentDate = new DateTimeImmutable();
-        $twoWeeks = new DateInterval('P15D');
-        $twoWeeksLater = $currentDate->add($twoWeeks);
 
         $emprunt = new Emprunt();
         $emprunt->setDateEmprunt($currentDate);
-        $emprunt->setDateRetour($twoWeeksLater);
+        $emprunt->setDateRetour(null);
 
         return $emprunt;
     }

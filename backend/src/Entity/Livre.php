@@ -215,7 +215,17 @@ class Livre
 
     public function isDisponible(): bool
     {
-        return $this->reservations === null && $this->emprunts->count() === 0;
+        if($this->reservations !== null){
+            return false;
+        }
+
+        foreach($this->emprunts as $emprunt){
+            if($emprunt->getDateRetour() === null){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function isReservedBy(Adherent $adherent): bool
