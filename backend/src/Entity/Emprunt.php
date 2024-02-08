@@ -34,7 +34,7 @@ class Emprunt
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['emprunt:read', 'emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write', 'adherent:read'])]
     private Livre $livre;
 
     public function getId(): ?int

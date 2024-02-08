@@ -21,35 +21,35 @@ class Auteur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['auteur:read', 'livre:read'])]
+    #[Groups(['auteur:read', 'livre:read', 'adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?\DateTimeImmutable $dateNaissance = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?\DateTimeImmutable $dateDeces = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $nationalite = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $photo = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write'])]
+    #[Groups(['auteur:read', 'auteur:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'auteurs')]
