@@ -35,6 +35,14 @@ export class ApiService {
     return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }
 
+  getFilteredLivres(offset: number, limit: number): Observable<Livre[]> {
+    return this.http.get<Livre[]>(`${this.apiUrl}/livres/search?offset=${offset}&limit=${limit}`);
+  }
+
+  getNbTotalLivres(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/livres/total`);
+  }
+
   updateAccount(data: inputUpdateAccount): Observable<any> {
     return this.http.put(`${this.apiUrl}/user/me/update`, data, this.getHttpHeader());
   }

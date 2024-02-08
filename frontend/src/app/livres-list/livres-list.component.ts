@@ -21,13 +21,20 @@ export class LivresListComponent {
   public user: Adherent | null = null;
   public reservationSuccess: boolean = false;
 
+  public currentPage: number = 0;
+  public nbPages: number = 0;
+  public nbLivresOnPage: number = 25;
+  public nbLivresTotal: number = this.nbLivresOnPage;
+  public pages: number[] = [];
+
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    //Récupération des livres
-    this.apiService.getLivres().subscribe((data: Livre[]) => {
-      this.livres = data;
-    });
+    // Variables de pagination
+    this.currentPage = 0;
+
+    // Récupération des livres et de la pagination
+    this.reloadLivres();
 
     //Récupération des catégories
     this.apiService.getCategories().subscribe((data: Categorie[]) => {
@@ -36,6 +43,31 @@ export class LivresListComponent {
 
     // Récupération de l'utilisateur s'il est connecté
     this.reloadUser();
+  }
+
+  swapToPage(page: number) {
+    this.currentPage = page;
+    this.reloadLivres();
+  }
+
+  reloadLivres() {
+    // Récupération du nombre total de livres
+    this.apiService.getNbTotalLivres().subscribe((nb: number) => {
+
+      // Récupération des livres dans l'intervalle de pagination
+      this.apiService.getFilteredLivres(this.currentPage*this.nbLivresOnPage, this.nbLivresOnPage).subscribe((data: Livre[]) => {
+        this.livres = data;
+      });
+
+      // Mise à jour de la pagination
+      this.nbLivresTotal = nb;
+      this.reloadPages();
+    });
+  }
+
+  reloadPages() {
+    this.nbPages = Math.ceil(this.nbLivresTotal / this.nbLivresOnPage);
+    this.pages = Array(this.nbPages).fill(0).map((x,i)=>i);
   }
 
   reloadUser(){

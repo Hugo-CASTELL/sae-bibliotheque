@@ -92,6 +92,13 @@ class LivreController extends AbstractController
         return $this->json($livres, 200, [], ['groups' => 'livre:read']);
     }
 
+    #[Route('/api/livres/total', name: 'app_api_livres_total')]
+    public function total(LivreRepository $livreRepository): JsonResponse
+    {
+        $total = $livreRepository->count([]);
+        return $this->json($total, 200);
+    }
+
     #[Route('/api/livres/{id}', name: 'app_api_livre_show')]
     public function show(int $id, LivreRepository $livreRepository): JsonResponse
     {
