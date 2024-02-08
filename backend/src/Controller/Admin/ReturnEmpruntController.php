@@ -42,7 +42,7 @@ class ReturnEmpruntController extends AbstractDashboardController
 
             $empruntRepository->returnEmprunt($emprunt['emprunt']);
 
-            return $this->redirectToRoute('bilbio');
+            return $this->redirectToRoute('biblio');
         }
 
 

@@ -51,7 +51,7 @@ class AddEmpruntController extends AbstractController
 
             $empruntRepository->save($emprunt, true);
 
-            return $this->redirectToRoute('bilbio');
+            return $this->redirectToRoute('biblio');
         }
 
 
@@ -80,7 +80,7 @@ class AddEmpruntController extends AbstractController
 
             $empruntRepository->addEmpruntResa($data['reservation']);
 
-            return $this->redirectToRoute('bilbio');
+            return $this->redirectToRoute('biblio');
         }
 
 
