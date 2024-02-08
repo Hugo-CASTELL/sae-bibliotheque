@@ -50,8 +50,12 @@ class ReservationController extends AbstractController
             return $this->json(['message' => 'There is already a reservation for this book'], 400);
         }
 
-        if ($empruntRepository->findOneBy(['livre' => $livre])) {
-            return $this->json(['message' => 'This book is already borrowed'], 400);
+        $empruntLivres = $empruntRepository->findBy(['livre' => $livre]);
+
+        foreach ($empruntLivres as $empruntLivre) {
+            if ($empruntLivre->getDateRetour() === null) {
+                return $this->json(['message' => 'This book is already borrowed'], 400);
+            }
         }
 
         $reservation = new Reservations();
