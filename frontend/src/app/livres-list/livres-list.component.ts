@@ -20,8 +20,12 @@ export class LivresListComponent {
   public user: Adherent | null = null;
 
   constructor(private apiService: ApiService, private authService: AuthService) {
-    this.apiService.getUser().subscribe((response) => {
-      this.user = response.adherent;
+    this.authService.isLogged().subscribe((isLogged) => {
+      if (isLogged) {
+        this.apiService.getUser().subscribe((response) => {
+          this.user = response.adherent;
+        });
+      }
     });
   }
 

@@ -10,6 +10,7 @@ import { outputLogin } from '../models/api/output/outputLogin';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
 import { AuthService } from './auth.service';
+import { Reservations } from '../models/reservations';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,10 @@ export class ApiService {
 
   getCategories(): Observable<Categorie[]> {
     return this.http.get<Categorie[]>(`${this.apiUrl}/categories`)
+  }
+
+  getReservation(id?: number) : Observable<any> {
+    return this.http.get<Reservations>(`${this.apiUrl}/user/reservations/${id}`, this.getHttpHeader());
   }
 
   private getHttpHeader(): any {

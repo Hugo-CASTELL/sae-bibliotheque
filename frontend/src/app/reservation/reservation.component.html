@@ -1,30 +1,8 @@
 <h2>Mes Réservations</h2>
+<h4>{{reservations.length}} / 3 réservations</h4>
 
-<div class="card">
-  <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Fissure in Sandstone"/>
-  <div class="card-body">
-    <h5 class="card-title">Nom livre</h5>
-    <p class="card-text">Date d'expiration :</p>
-    <a  class="btn btn-danger">Annuler</a>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col" *ngFor="let reservation of reservations">
+    <app-reservation-card [id]="reservation.id"></app-reservation-card>
   </div>
 </div>
-<br/>
-<div class="card">
-  <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Fissure in Sandstone"/>
-  <div class="card-body">
-    <h5 class="card-title">Nom livre</h5>
-    <p class="card-text">Date d'expiration :</p>
-    <a href="" class="btn btn-danger">Annuler</a>
-  </div>
-</div>
-<br/>
-<div class="card">
-  <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Fissure in Sandstone"/>
-  <div class="card-body">
-    <h5 class="card-title">Nom livre</h5>
-    <p class="card-text">Date d'expiration :</p>
-    <a href="" class="btn btn-danger">Annuler</a>
-  </div>
-</div>
-<br/>
-<a id="reservationButton" href="/livres" class="btn btn-primary">Réserver</a>

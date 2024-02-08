@@ -9,6 +9,7 @@ import { LivresListComponent } from './livres-list/livres-list.component';
 import { LoginComponent } from './login/login.component';
 import { AccountComponent } from './account/account.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationCardComponent } from './reservation-card/reservation-card.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ReservationComponent } from './reservation/reservation.component';
     LivresListComponent,
     LoginComponent,
     AccountComponent,
-    ReservationComponent
+    ReservationComponent,
+    ReservationCardComponent
   ],
   imports: [
     BrowserModule,

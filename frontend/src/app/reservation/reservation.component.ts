@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Reservations } from '../models/reservations';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-reservation',
@@ -6,6 +10,30 @@ import { Component } from '@angular/core';
   styleUrl: './reservation.component.css'
 })
 export class ReservationComponent {
+
+  public reservations: Reservations[] = [];
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private apiService: ApiService) {
+    this.authService.isLogged().subscribe((isLogged) => {
+      if (!isLogged) {
+        this.navigateToLoginPage();
+      }
+    });
+
+    this.apiService.getUser().subscribe((response) => {
+      this.reservations = response.adherent.reservations;
+      console.log("Réservations utilisateur (page réservation) :");
+      console.log(this.reservations);
+    });
+  }
+
+  deleteReservation(id: number) {
+    console.log("Delete réservation " + id);
+  }
+
+  navigateToLoginPage() {
+    this.router.navigate(['../login'], { relativeTo: this.route });
+  }
   
 }
 
