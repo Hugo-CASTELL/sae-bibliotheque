@@ -24,6 +24,9 @@
   </label>
 </div>
 
+<div *ngIf="reservationSuccess" class="alert alert-success" role="alert">
+    Livre réservé avec succès !
+</div>
 
 <div class="container">
   <div class="row">
@@ -33,9 +36,27 @@
         <div class="card-body">
           <h5 class="card-title">{{livre.titre}}</h5>
           <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary">Réserver</button>
-          <button *ngIf="user" [disabled]="!user || (user.reservations && user.reservations.length >= 3)" [routerLink]="['/livres', livre.id]" class="btn btn-primary">Réserver</button>
+          <button *ngIf="user && livre.id" [disabled]="(user.reservations && user.reservations.length >= 3) || !canReserveBook(livre.id)" (click)="createReservation(livre.id)" class="btn btn-primary">Réserver</button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="d-flex justify-content-evenly">
+  <nav aria-label="Pagination" class="mx-auto">
+    <ul class="pagination">
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }">
+        <button class="page-link" [disabled]="currentPage === 0" (click)="swapToPage(currentPage-1)">Previous</button>
+      </li>
+
+      <li class="page-item" [ngClass]="{ 'active': page === currentPage }" *ngFor="let page of pages">
+        <button class="page-link" (click)="swapToPage(page)">{{ page+1 }}</button>
+      </li>
+
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === nbPages-1 }">
+        <button class="page-link" [disabled]="currentPage === nbPages-1" (click)="swapToPage(currentPage+1)">Next</button>
+      </li>
+    </ul>
+  </nav>
 </div>

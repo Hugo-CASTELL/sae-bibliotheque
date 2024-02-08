@@ -11,6 +11,7 @@ import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
 import { AuthService } from './auth.service';
 import { Reservations } from '../models/reservations';
+import { Reservations } from '../models/reservations';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,14 @@ export class ApiService {
     return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }
 
+  getFilteredLivres(offset: number, limit: number): Observable<Livre[]> {
+    return this.http.get<Livre[]>(`${this.apiUrl}/livres/search?offset=${offset}&limit=${limit}`);
+  }
+
+  getNbTotalLivres(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/livres/total`);
+  }
+
   updateAccount(data: inputUpdateAccount): Observable<any> {
     return this.http.put(`${this.apiUrl}/user/me/update`, data, this.getHttpHeader());
   }
@@ -45,6 +54,10 @@ export class ApiService {
 
   getCategories(): Observable<Categorie[]> {
     return this.http.get<Categorie[]>(`${this.apiUrl}/categories`)
+  }
+
+  createReservation(data: any): any {
+    return this.http.post<Reservations>(`${this.apiUrl}/user/reservations/create`, data, this.getHttpHeader());
   }
 
   getReservation(id?: number) : Observable<any> {
