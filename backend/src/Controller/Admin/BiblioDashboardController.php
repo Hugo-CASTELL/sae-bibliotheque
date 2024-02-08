@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\AdherentRepository;
+use App\Repository\EmpruntRepository;
 
 
 use App\Entity\Adherent;
@@ -24,6 +25,7 @@ class BiblioDashboardController extends AbstractDashboardController
 
     public function __construct(
         private AdherentRepository $adherentRepository,
+        private EmpruntRepository $empruntRepository,
     ) {}
 
     #[Route('/biblio', name: 'biblio')]
@@ -31,9 +33,13 @@ class BiblioDashboardController extends AbstractDashboardController
     {
         $adwithempruntsatemps = $this->adherentRepository->findHasEmpruntsATemps();
         $adwithempruntsenretard = $this->adherentRepository->findHasEmpruntsEnRetard();
+        $empruntsenc = $this->empruntRepository->findEmpruntsEnCours();
+        $empruntsenret = $this->empruntRepository->findEmpruntsEnRetard();
         return $this->render('admin/biblioDashboard.html.twig',[
             'adwithempruntsatemps' => $adwithempruntsatemps,
-            'adwithempruntsenretard' => $adwithempruntsenretard]);
+            'adwithempruntsenretard' => $adwithempruntsenretard,
+            'empruntsenc' => $empruntsenc,
+            'empruntsenret' => $empruntsenret]);
     }
 
     public function configureDashboard(): Dashboard

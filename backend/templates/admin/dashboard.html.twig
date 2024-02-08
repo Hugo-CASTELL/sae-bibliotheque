@@ -104,7 +104,7 @@
                         {% for adherent in adwithempruntsatemps %}
                         <li>
                             <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
-                                {{ adherent.nom | upper }} {{ adherent.prenom }}
+                                {{ adherent.nom | upper }} {{ adherent.prenom }}  {{ empruntsenc|filter(item => item.adherent.id == adherent.id)|length }}
                             </a>
                         </li>
                         {% endfor %}
@@ -122,7 +122,7 @@
                     {% for adherent in adwithempruntsenretard %}
                     <li>
                         <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
-                            {{ adherent.nom | upper }} {{ adherent.prenom }}
+                            {{ adherent.nom | upper }} {{ adherent.prenom }} {{ empruntsenret|filter(item => item.adherent.id == adherent.id)|length }}
                         </a>
                     </li>
                     {% endfor %}

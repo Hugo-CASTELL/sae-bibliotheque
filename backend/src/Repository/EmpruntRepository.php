@@ -74,4 +74,25 @@ class EmpruntRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findEmpruntsEnCours(): array
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.id IS NOT NULL') 
+        ->andWhere('e.dateRetour IS NULL')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findEmpruntsEnRetard(): array
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.id IS NOT NULL') 
+        ->andWhere('e.dateRetour IS NULL')
+        ->andWhere('e.dateEmprunt < :threeWeeksAgo')
+        ->setParameter('threeWeeksAgo', new \DateTime('-3 weeks'))
+        ->getQuery()
+        ->getResult();
+
+    }
 }
