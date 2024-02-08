@@ -11,6 +11,8 @@ import { AccountComponent } from './account/account.component';
 import { LivreDetailsComponent } from './livre-details/livre-details.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ReservationCardComponent } from './reservation-card/reservation-card.component';
+import { EmpruntComponent } from './emprunt/emprunt.component';
+import { EmpruntCardComponent } from './emprunt-card/emprunt-card.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ReservationCardComponent } from './reservation-card/reservation-card.co
     AccountComponent,
     LivreDetailsComponent,
     ReservationComponent,
-    ReservationCardComponent
+    ReservationCardComponent,
+    EmpruntComponent,
+    EmpruntCardComponent
   ],
   imports: [
     BrowserModule,

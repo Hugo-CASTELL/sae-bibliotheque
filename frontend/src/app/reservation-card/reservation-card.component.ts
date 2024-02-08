@@ -32,7 +32,7 @@ export class ReservationCardComponent {
       this.photoLivre = res.livre.photoCouverture;
       this.titreLivre = res.livre.titre;
       if (res && res.dateResa) {
-        this.dateReservation = new Date(res.dateResa).getDate() + "/" + new Date(res.dateResa).getMonth() + 1 + "/" + new Date(res.dateResa).getFullYear();
+        this.dateReservation = new Date(res.dateResa).getDate() + "/" + (new Date(res.dateResa).getMonth() + 1) + "/" + new Date(res.dateResa).getFullYear();
         let Difference_In_Time = new Date().getTime() - new Date(res.dateResa).getTime();
         let Difference_In_Days = Math.round (Difference_In_Time / (1000 * 3600 * 24));
         this.joursRestants = 8 - Difference_In_Days;
