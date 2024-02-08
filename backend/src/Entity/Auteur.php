@@ -9,8 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get; 
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
+#[ApiResource(operations: [
+    new Get(name: 'app_api_auteur'),
+    new Get(name: 'app_api_auteur_show'),
+])]
 class Auteur
 {
     #[ORM\Id]

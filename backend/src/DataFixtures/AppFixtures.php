@@ -106,18 +106,29 @@ class AppFixtures extends Fixture
         }
 
         for ($i = 0; $i < 10; $i++) {
+            $utilisateur = new Utilisateur();
+            $nom = $this->faker->lastName;
+            $prenom = $this->faker->firstName;
+
+            $utilisateur
+                ->setEmail(strtolower($prenom) . '.' . strtolower($nom) . '@example.com')
+                ->setPassword('$2y$13$jNflVNn0M8bDtspdhkCpxOxqtl8QIOlye0/HBBtA3SzHH66dhCG0O')
+                ->setRoles(['ROLE_ADHERENT']);
+
+            $manager->persist($utilisateur);
+
             $adherent = new Adherent();
             $adherent
                 ->setDateAdhesion(\DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear()))
-                ->setNom($this->faker->lastName)
-                ->setPrenom($this->faker->firstName)
+                ->setNom($nom)
+                ->setPrenom($prenom)
                 ->setDateNaissance(\DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-80 years', '-18 years')))
-                ->setEmail($this->faker->email)
+                ->setEmail($utilisateur->getEmail())
                 ->setAdressePostale($this->faker->address)
                 ->setNumTel($this->faker->phoneNumber)
-                ->setPhoto($this->faker->imageUrl());
+                ->setPhoto($this->faker->imageUrl())
+                ->setUtilisateur($utilisateur);
 
-            
             $adherents[] = $adherent;
             $manager->persist($adherent);
         }
@@ -182,10 +193,6 @@ class AppFixtures extends Fixture
                 $manager->persist($reservation);
             }
         }
-
-        
-
-
 
         $manager->flush();
         return;

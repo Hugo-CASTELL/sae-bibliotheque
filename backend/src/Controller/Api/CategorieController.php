@@ -5,8 +5,10 @@ namespace App\Controller\Api;
 use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 class CategorieController extends AbstractController
 {
     #[Route('/api/categories', name: 'app_api_categorie')]

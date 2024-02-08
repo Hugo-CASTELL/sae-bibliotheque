@@ -9,30 +9,37 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
+#[ApiResource(operations: [
+    new Get(name: 'app_api_livre'),
+    new Get(name: 'app_api_livres_total'),
+    new Get(name: 'app_api_livre_show'),
+    new Get(name: 'app_api_livres_search'),
+])]
 class Livre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read'])]
+    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read', 'reservations:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?\DateTimeImmutable $dateSortie = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
     private ?string $photoCouverture = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'livres')]
@@ -43,7 +50,7 @@ class Livre
     #[Groups(['livre:read', 'livre:write'])]
     private Collection $auteurs;
 
-    #[ORM\OneToOne(mappedBy: 'livre', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'livre')]
     #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
@@ -211,5 +218,25 @@ class Livre
     public function __toString(): string
     {
         return $this->titre;
+    }
+
+    public function isDisponible(): bool
+    {
+        if($this->reservations !== null){
+            return false;
+        }
+
+        foreach($this->emprunts as $emprunt){
+            if($emprunt->getDateRetour() === null){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isReservedBy(Adherent $adherent): bool
+    {
+        return $this->reservations !== null & $this->reservations->getAdherent() === $adherent;
     }
 }

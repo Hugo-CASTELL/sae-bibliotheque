@@ -11,7 +11,7 @@
       <select class="form-select" [(ngModel)]="selectedCategory">
         <option value="" selected>Sélectionner une catégorie</option>
         <option value="{{categorie.id}}" *ngFor="let categorie of categories">
-          {{ categorie.nom }} ({{categorie.livres.length}} livres) 
+          {{ categorie.nom }} ({{categorie.livres.length}} livres)
         </option>
       </select>
     </div>
@@ -24,11 +24,39 @@
   </label>
 </div>
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let livre of filterLivres()">
-    {{ livre.titre }} 
-    <div *ngFor="let auteur of livre.auteurs">
-      {{ auteur.nom }} {{ auteur.prenom }}
+<div *ngIf="reservationSuccess" class="alert alert-success" role="alert">
+    Livre réservé avec succès !
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3" *ngFor="let livre of filterLivres()">
+      <div class="card m-3">
+        <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
+        <div class="card-body">
+          <h5 class="card-title">{{livre.titre}}</h5>
+          <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary">Réserver</button>
+          <button *ngIf="user && livre.id" [disabled]="(user.reservations && user.reservations.length >= 3) || !canReserveBook(livre.id)" (click)="createReservation(livre.id)" class="btn btn-primary">Réserver</button>
+        </div>
+      </div>
     </div>
-  </li>
-</ul>
+  </div>
+</div>
+
+<div class="d-flex justify-content-evenly">
+  <nav aria-label="Pagination" class="mx-auto">
+    <ul class="pagination">
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }">
+        <button class="page-link" [disabled]="currentPage === 0" (click)="swapToPage(currentPage-1)">Previous</button>
+      </li>
+
+      <li class="page-item" [ngClass]="{ 'active': page === currentPage }" *ngFor="let page of pages">
+        <button class="page-link" (click)="swapToPage(page)">{{ page+1 }}</button>
+      </li>
+
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === nbPages-1 }">
+        <button class="page-link" [disabled]="currentPage === nbPages-1" (click)="swapToPage(currentPage+1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+</div>

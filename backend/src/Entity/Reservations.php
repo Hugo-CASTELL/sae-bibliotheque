@@ -3,12 +3,21 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Repository\ReservationsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
+#[ApiResource(operations: [
+    new Get(name: 'app_api_user_reservations'),
+    new Post(name: 'app_api_user_reservations_create'),
+    new Get(name: 'app_api_user_reservations_id'),
+    new Delete(name: 'app_api_user_reservations_delete')
+])]
 class Reservations
 {
     #[ORM\Id]
@@ -23,13 +32,12 @@ class Reservations
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservations:read', 'reservations:write'])]
-    private Adherent $adherent;
+    private ?Adherent $adherent;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['reservations:read', 'reservations:write'])]
-    private Livre $livre;
+    private ?Livre $livre;
 
     public function getId(): ?int
     {
@@ -65,7 +73,7 @@ class Reservations
         return $this->livre;
     }
 
-    public function setLivre(Livre $livre): static
+    public function setLivre(?Livre $livre): static
     {
         $this->livre = $livre;
 

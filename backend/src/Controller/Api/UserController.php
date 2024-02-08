@@ -8,24 +8,27 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
+#[AsController]
 class UserController extends AbstractController
 {
     #[Route('/api/user/me', name: 'app_api_user')]
-    public function index(AdherentRepository $adherentRepository): JsonResponse
+    public function index(AdherentRepository $adherentRepository, UtilisateurRepository $utilisateurRepository): JsonResponse
     {
         /** @var \App\Entity\Utilisateur $user */
         $user = $this->getUser();
 
-        $adherent = $adherentRepository->findOneBy(['email' => $user->getEmail()]);
+        $utilisateur = $utilisateurRepository->findOneBy(['email' => $user->getEmail()]);
+        // $adherent = $adherentRepository->findOneBy(['email' => $user->getEmail()]);
 
-        if (!$adherent) {
+        if (!$utilisateur) {
             return $this->json(['message' => 'Adherent not found'], 404);
         }
 
-        return $this->json($adherent, 200, [], ['groups' => 'adherent:read']);
+        return $this->json($utilisateur, 200, [], ['groups' => 'adherent:read']);
     }
 
     #[Route('/api/user/me/update', name: 'app_api_user_update', methods: ['PUT'])]

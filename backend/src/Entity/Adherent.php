@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Put;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AdherentRepository::class)]
+#[ApiResource(operations: [
+    new Put(name: 'app_api_user_update')
+])]
 class Adherent
 {
     #[ORM\Id]
@@ -58,6 +62,10 @@ class Adherent
     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'adherent')]
     #[Groups(['adherent:read', 'adherent:write'])]
     private Collection $emprunts;
+
+    #[ORM\OneToOne(inversedBy: 'adherent', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
@@ -228,5 +236,17 @@ class Adherent
     public function __toString(): string
     {
         return $this->nom . ' ' . $this->prenom;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
     }
 }
