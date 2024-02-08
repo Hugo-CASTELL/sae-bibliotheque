@@ -27,8 +27,9 @@ export class LivresListComponent {
   public currentPage: number = 0;
   public nbPages: number = 0;
   public nbLivresOnPage: number = 25;
-  public nbLivresTotal: number = this.nbLivresOnPage;
+  public nbLivresTotal: number = 0;
   public pages: number[] = [];
+  public noResult: boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
@@ -66,6 +67,11 @@ export class LivresListComponent {
       this.apiService.getFilteredLivres(this.currentPage, this.nbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
         this.livres = data;
         console.log(data);
+        if (data.length == 0) {
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+        }
       });
 
       // Mise à jour de la pagination

@@ -1,4 +1,4 @@
-<h2 class="mb-3">Liste des livres</h2>
+<h2 class="mb-3">Liste des livres ({{nbLivresTotal}})</h2>
 <div class="container text-center mx-0">
   <div class="row">
 
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<div class="form-check mb-4">
+<div class="form-check mb-4 mr-0">
   <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="isAvailable">
   <label class="form-check-label" for="flexCheckChecked">
     Est disponible
@@ -47,7 +47,7 @@
     Livre réservé avec succès !
 </div>
 
-<div class="d-flex justify-content-evenly">
+<div class="d-flex justify-content-evenly" *ngIf="!noResult">
   <nav aria-label="Pagination" class="mx-auto">
     <ul class="pagination">
       <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }">
@@ -81,7 +81,7 @@
   </div>
 </div>
 
-<div class="d-flex justify-content-evenly">
+<div class="d-flex justify-content-evenly" *ngIf="!noResult">
   <nav aria-label="Pagination" class="mx-auto">
     <ul class="pagination">
       <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }">
@@ -98,3 +98,5 @@
     </ul>
   </nav>
 </div>
+
+<h4 *ngIf="noResult">Aucun livre n'a été trouvé</h4>
