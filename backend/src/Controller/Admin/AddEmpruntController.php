@@ -22,8 +22,6 @@ use App\Entity\Reservations;
 
 class AddEmpruntController extends AbstractController
 {
-
-
     #[Route('/biblio/addEmprunt', name: 'add_emprunt')]
     public function addEmprunt(Request $request, EmpruntRepository $empruntRepository): Response
     {
@@ -63,67 +61,28 @@ class AddEmpruntController extends AbstractController
     #[Route('/biblio/addEmpruntResa', name: 'add_emprunt_resa')]
     public function addEmpruntResa(Request $request, EmpruntRepository $empruntRepository): Response
     {
-        $formAdherent = $this->createFormBuilder()
-            ->add('adherent', EntityType::class, [
-                'class' => Adherent::class,
+        $form = $this->createFormBuilder()
+            ->add('reservation', EntityType::class, [
+                'class' => Reservations::class,
+                'choice_label' => function (Reservations $reservations) {
+                    return $reservations->getAdherent()->getNom() . ' ' . $reservations->getAdherent()->getPrenom() . ' - ' . $reservations->getLivre()->getTitre();
+                }
             ])
             ->getForm();
 
-        $formAdherent->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formAdherent->isSubmitted()) {
-            $adherent = $formAdherent->getData();
-            $reservations = $adherent["adherent"]->getReservations();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-            $formReservation = $this->createFormBuilder()
-                ->add('reservation', EntityType::class, [
-                    'class' => Reservations::class,
-                    'choices' => $reservations,
-                    'placeholder' => 'Choisir une réservation',
-                ])->getForm();
+            $empruntRepository->addEmpruntResa($data['reservation']);
 
-            
-
-            return $this->render('admin/addEmpruntbiblioResaDashboardSetp.html.twig', [
-                'form_adherent' => $formAdherent->createView(),
-                'form_reservation' => $formReservation->createView(),
-            ]);
+            return $this->redirectToRoute('bilbio');
         }
 
+
         return $this->render('admin/addEmpruntbiblioResaDashboard.html.twig', [
-            'form_adherent' => $formAdherent->createView(),
+            'form' => $form,
         ]);
-
-        // $emprunt = new Emprunt();
-        // $emprunt->setDateEmprunt(new \DateTimeImmutable());
-
-        // $form = $this->createForm(AddEmpruntResa::class, $emprunt);
-
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $emprunt = $form->getData();
-
-        //     $empruntRepository->save($emprunt, true);
-
-        //     return $this->redirectToRoute('bilbio');
-        // }
-
-
-        // return $this->render('admin/addEmpruntbiblioResaDashboard.html.twig', [
-        //     'form' => $form,
-        // ]);
-    }
-
-    public function configureDashboard(): Dashboard
-    {
-        return Dashboard::new()
-            ->setTitle('Backend');
-    }
-
-    public function configureMenuItems(): iterable
-    {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
