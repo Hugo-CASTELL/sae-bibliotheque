@@ -68,7 +68,7 @@
                 <time datetime="{{ entity.dateAdhesion |date('Y-m-d')}}" title="{{ entity.dateAdhesion |date('Y-m-d')}}">{{ entity.dateAdhesion |date('Y-m-d')}}</time>
             </td>
             <td data-column="emprunts" data-label="Photo de l'adherent" class=" text- field-text" dir="ltr">
-                <span title="{{ entity.emprunts | length }}">{{ entity.emprunts | length }}</span>
+                <span title="{{ empruntsenc|filter(item => item.adherent.id == entity.id)|length }}">{{ empruntsenc|filter(item => item.adherent.id == entity.id)|length }}</span>
                 </td>
             </tr>
         {% endfor %}
