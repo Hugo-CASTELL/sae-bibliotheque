@@ -29,6 +29,12 @@ class EmpruntRepository extends ServiceEntityRepository
         }
     }
 
+    public function returnEmprunt(Emprunt $emprunt): void
+    {
+        $emprunt->setDateRetour(new \DateTimeImmutable());
+        $this->save($emprunt, true);
+    }
+
 //    /**
 //     * @return Emprunt[] Returns an array of Emprunt objects
 //     */

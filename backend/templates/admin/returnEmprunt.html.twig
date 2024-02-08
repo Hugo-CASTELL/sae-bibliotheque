@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <h1>Retourner un Emprunt</h1>
+        <div class="form">
+            <div class="form-field mb-3">
+                <label for="form_emprunt" class="form-label">Adherent</label>
+                <select id="form_emprunt" name="{{ field_name(form.emprunt) }}" class="form-control">
+                    {% for label, value in field_choices(form.emprunt) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn full">{{ button_label|default('Enregistrer le retour') }}</button>
+
+    {{ form_end(form) }}
+{% endblock %}
