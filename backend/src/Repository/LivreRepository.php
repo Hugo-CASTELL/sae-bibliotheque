@@ -85,7 +85,7 @@ class LivreRepository extends ServiceEntityRepository
 
         if (isset($param['offset'])) {
             $queryBuilder
-                ->setFirstResult($param['offset']);
+                ->setFirstResult($param['offset'] * $param['limit']);
         }
 
         if (isset($param['limit'])) {
