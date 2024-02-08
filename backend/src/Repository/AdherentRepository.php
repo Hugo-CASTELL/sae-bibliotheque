@@ -36,13 +36,14 @@ class AdherentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Adherent
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findHasEmprunts(): array
+    {
+        return $this->createQueryBuilder('a')
+        ->leftJoin('a.emprunts', 'e') 
+        ->where('e.id IS NOT NULL') 
+        ->andWhere('e.dateRetour IS NULL')
+        ->orderBy('a.nom', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
 }
