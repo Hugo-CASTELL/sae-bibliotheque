@@ -41,6 +41,8 @@ class BiblioDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::section('Gestion');
+        yield MenuItem::linkToRoute('Adhérents avec emprunts','fa fa-user','admin/emprunteurs');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
