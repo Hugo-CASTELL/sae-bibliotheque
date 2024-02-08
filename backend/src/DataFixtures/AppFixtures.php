@@ -156,7 +156,7 @@ class AppFixtures extends Fixture
 
                 // Ensure the order of dates during random generation
                 if ($dateEmprunt > $dateRetour) {
-                    [$dateEmprunt, $dateRetour] = [$dateRetour, $dateEmprunt];
+                    $dateRetour = null;
                 }
                 $emprunt
                     ->setDateEmprunt($dateEmprunt)

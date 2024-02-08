@@ -41,5 +41,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Reservations', 'fa fa-user', Reservations::class);
         yield MenuItem::section('Configuration');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Utilisateur::class);
+        yield MenuItem::section('Gestion');
+        yield MenuItem::linkToRoute('Adhérents avec emprunts','fa fa-user','admin/emprunteurs');
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\EmprunteursFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Adherent;
 use DateTime;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -28,7 +31,7 @@ class AdherentCrudController extends AbstractCrudController
                 ->setLabel('Prenom de l\'adherent')
                 ->setMaxLength(255),
             TextField::new('email')
-                ->setLabel('eamil de l\'adherent')
+                ->setLabel('email de l\'adherent')
                 ->setMaxLength(255),
             TextField::new('adressePostale')
                 ->setLabel('Adresse de l\'adherent')
@@ -45,4 +48,5 @@ class AdherentCrudController extends AbstractCrudController
                 ->setLabel('Date d\'adhésion'),
         ];
     }
+
 }
