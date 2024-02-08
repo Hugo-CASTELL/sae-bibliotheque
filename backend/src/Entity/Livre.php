@@ -14,7 +14,8 @@ use ApiPlatform\Metadata\Get;
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 #[ApiResource(operations: [
     new Get(name: 'app_api_livre'),
-    new Get(name: 'app_api_livre_show')
+    new Get(name: 'app_api_livre_show'),
+    new Get(name: 'app_api_livres_search'),
 ])]
 class Livre
 {
