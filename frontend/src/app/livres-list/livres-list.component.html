@@ -1,5 +1,5 @@
 <h2 class="mb-3">Liste des livres ({{nbLivresTotal}})</h2>
-<div class="container text-center mx-0">
+<div class="container text-center mx-0 mb-4">
   <div class="row">
 
     <div class="col ml-0 mr-0">
@@ -36,12 +36,14 @@
   </div>
 </div>
 
+<!--
 <div class="form-check mb-4 mr-0">
   <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="isAvailable">
   <label class="form-check-label" for="flexCheckChecked">
     Est disponible
   </label>
 </div>
+-->
 
 <div *ngIf="reservationSuccess" class="alert alert-success" role="alert">
     Livre réservé avec succès !
