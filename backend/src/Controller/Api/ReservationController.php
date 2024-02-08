@@ -70,14 +70,14 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/api/user/reservations/{id}', name: 'app_api_user_reservation_id', methods: ['GET'])]
-    public function show(int $id, AdherentRepository $adherentRepository): JsonResponse
+    public function show(int $id, AdherentRepository $adherentRepository, ReservationsRepository $reservationsRepository): JsonResponse
     {
         /** @var \App\Entity\Utilisateur $user */
         $user = $this->getUser();
 
         $adherent = $adherentRepository->findOneBy(['email' => $user->getEmail()]);
 
-        $reservation = $adherent->getReservations()->filter(fn($reservation) => $reservation->getId() === $id);
+        $reservation = $reservationsRepository->findOneBy(['id' => $id, 'adherent' => $adherent]);
 
         return $this->json($reservation, 200, [], ['groups' => 'reservations:read']);
     }
