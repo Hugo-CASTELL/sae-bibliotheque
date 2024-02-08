@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
 import { Reservations } from '../models/reservations';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-livres-list',
@@ -26,10 +27,11 @@ export class LivresListComponent {
   public currentPage: number = 0;
   public nbPages: number = 0;
   public nbLivresOnPage: number = 25;
-  public nbLivresTotal: number = this.nbLivresOnPage;
+  public nbLivresTotal: number = 0;
   public pages: number[] = [];
+  public noResult: boolean = false;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(private apiService: ApiService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     // Variables de pagination
@@ -65,6 +67,11 @@ export class LivresListComponent {
       this.apiService.getFilteredLivres(this.currentPage, this.nbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
         this.livres = data;
         console.log(data);
+        if (data.length == 0) {
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+        }
       });
 
       // Mise à jour de la pagination
@@ -95,9 +102,10 @@ export class LivresListComponent {
 
     if(livre){
       let isLivreDejaReserve = livre.reservations != null;
+      let isLivreDejaEmprunte = livre.emprunts != null && livre.emprunts.some(emprunt => emprunt.dateRetour == null);
 
       // Si le livre est disponible
-      if(!isLivreDejaReserve){
+      if(!isLivreDejaReserve && !isLivreDejaEmprunte){
         if(this.user && this.user.reservations){
           let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre && reservation.livre.id && reservation.livre.id == idLivre);
           let isUserDejaTroisReservations = this.user.reservations.length >= 3;
@@ -149,6 +157,10 @@ export class LivresListComponent {
     console.log("Additional filter");
     console.log(additionalFilter);
     return additionalFilter;
+  }
+
+  bookDetails(idLivre?: number) {
+    this.router.navigate(['../livre/'+idLivre], { relativeTo: this.route });
   }
 
 }

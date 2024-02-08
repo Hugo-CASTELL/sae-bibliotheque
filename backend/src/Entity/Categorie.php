@@ -21,15 +21,15 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['categorie:read', 'livre:read', 'livre:write'])]
+    #[Groups(['categorie:read', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write'])]
+    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write'])]
+    #[Groups(['categorie:read', 'categorie:write', 'livre:read', 'livre:write', 'adherent:read'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'categories')]

@@ -23,38 +23,38 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read', 'reservations:read'])]
+    #[Groups(['livre:read', 'categorie:read', 'auteur:read', 'emprunt:read', 'reservations:read', 'adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read', 'adherent:read'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read', 'adherent:read'])]
     private ?\DateTimeImmutable $dateSortie = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read', 'adherent:read'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read'])]
+    #[Groups(['livre:read', 'livre:write', 'categorie:read', 'categorie:write', 'auteur:read', 'auteur:write', 'emprunt:read', 'emprunt:write', 'reservations:read', 'adherent:read'])]
     private ?string $photoCouverture = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'livres')]
-    #[Groups(['livre:read', 'livre:write'])]
+    #[Groups(['livre:read', 'livre:write', 'adherent:read'])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'livres')]
-    #[Groups(['livre:read', 'livre:write'])]
+    #[Groups(['livre:read', 'livre:write', 'adherent:read'])]
     private Collection $auteurs;
 
-    #[ORM\OneToOne(mappedBy: 'livre')]
+    #[ORM\OneToOne(mappedBy: 'livre', cascade: ['remove'])]
     #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
-    #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class)]
+    #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class, cascade: ['remove'])]
     #[Groups(['livre:read'])]
     private Collection $emprunts;
 

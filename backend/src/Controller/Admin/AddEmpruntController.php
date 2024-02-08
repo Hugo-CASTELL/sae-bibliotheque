@@ -41,7 +41,6 @@ class AddEmpruntController extends AbstractController
                 },
                 'choice_label' => 'titre',
             ])
-            ->add('dateEmprunt', DateType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -51,9 +50,8 @@ class AddEmpruntController extends AbstractController
 
             $empruntRepository->save($emprunt, true);
 
-            return $this->redirectToRoute('bilbio');
+            return $this->redirectToRoute('biblio');
         }
-
 
         return $this->render('admin/addEmpruntbiblioDashboard.html.twig', [
             'form' => $form,
@@ -80,7 +78,7 @@ class AddEmpruntController extends AbstractController
 
             $empruntRepository->addEmpruntResa($data['reservation']);
 
-            return $this->redirectToRoute('bilbio');
+            return $this->redirectToRoute('biblio');
         }
 
 

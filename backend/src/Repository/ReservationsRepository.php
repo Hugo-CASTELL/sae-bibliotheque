@@ -21,6 +21,23 @@ class ReservationsRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservations::class);
     }
 
+    public function cleanupReservations(): void {
+        // Get reservation create 7 days ago
+        $date = (new \DateTimeImmutable())->modify('-7 days');
+
+        $reservations = $this->createQueryBuilder('r')
+            ->andWhere('r.dateResa < :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+
+        foreach ($reservations as $reservation) {
+            $this->_em->remove($reservation);
+        }
+
+        $this->_em->flush();
+    }
+
 //    /**
 //     * @return Reservations[] Returns an array of Reservations objects
 //     */

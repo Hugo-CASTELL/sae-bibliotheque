@@ -67,15 +67,11 @@
             <input type="password" class="form-control" id="newPassword" name="newPassword" disabled>
         </div>
     </div>
-    <div class="mb-3 row">
-        <div class="text-confirmation">
-            {{confirmationMessage}}
-        </div>
+    <div class="alert alert-success" role="alert" *ngIf="confirmationMessage">
+        {{confirmationMessage}}
     </div>
-    <div class="mb-3 row">
-        <div class="text-danger">
-            {{errorMessage}}
-        </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
     </div>
     <div class="mb-3 row">
         <div class="col-auto">
