@@ -4,6 +4,7 @@ import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
+import { Reservations } from '../models/reservations';
 
 @Component({
   selector: 'app-livres-list',
@@ -18,15 +19,11 @@ export class LivresListComponent {
   searchText: string = '';
   isAvailable: boolean = false;
   public user: Adherent | null = null;
+  public reservationSuccess: boolean = false;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {
-    this.apiService.getUser().subscribe((response) => {
-      this.user = response.adherent;
-    });
-  }
+  constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
-
     //Récupération des livres
     this.apiService.getLivres().subscribe((data: Livre[]) => {
       this.livres = data;
@@ -35,6 +32,56 @@ export class LivresListComponent {
     //Récupération des catégories
     this.apiService.getCategories().subscribe((data: Categorie[]) => {
       this.categories = data;
+    });
+
+    // Récupération de l'utilisateur s'il est connecté
+    this.reloadUser();
+  }
+
+  reloadUser(){
+    this.authService.isLogged().subscribe((isLogged) => {
+      if(isLogged) {
+        this.apiService.getUser().subscribe((response) => {
+          // Récupération de l'utilisateur
+          this.user = response.adherent;
+        });
+      }
+    });
+  }
+
+  canReserveBook(idLivre: number) {
+    let livre = this.livres.find(livre => livre.id == idLivre);
+    let canReserve = false;
+
+    if(livre){
+      let isLivreDejaReserve = livre.reservations != null;
+
+      // Si le livre est disponible
+      if(!isLivreDejaReserve){
+        if(this.user && this.user.reservations){
+          let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre.id == idLivre);
+          let isUserDejaTroisReservations = this.user.reservations.length >= 3;
+
+          // On définit s'il peut réserver un livre
+          canReserve = !isUserDejaReserve && !isUserDejaTroisReservations;
+        }
+      }
+    }
+
+    return canReserve;
+  }
+
+  createReservation(idLivre: any) {
+    this.reservationSuccess = false;
+    this.apiService.createReservation({livre: idLivre}).subscribe((response: any) => {
+      this.reservationSuccess = true;
+      this.reloadUser();
+
+      // Reload du livre
+      let livre = this.livres.find(livre => livre.id == idLivre)
+      if(livre){
+        livre.reservations = new Reservations(response.adherent, response.livre, response.id, response.dateResa);
+      }
     });
   }
 
