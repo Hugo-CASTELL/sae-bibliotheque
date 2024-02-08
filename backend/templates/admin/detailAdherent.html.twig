@@ -1,0 +1,38 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center">Détails Adhérent</h1>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ adherent.nom | upper }} {{ adherent.prenom }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ adherent.email }}</h6>
+                    <p class="card-text">{{ adherent.adressePostale }}</p>
+                </div>
+            </div>
+            <!--Liste des emprunts-->
+            <h2 class="text-center mt-5">Liste des emprunts</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titre du livre</th>
+                        <th>Date d'emprunt</th>
+                        <th>Date de retour</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprunt in adherent.emprunts | sort((a, b) => b.dateEmprunt <=> a.dateEmprunt)%}
+                    <tr>
+                        <td>{{ emprunt.livre.titre }}</td>
+                        <td>{{ emprunt.dateEmprunt is empty ? "" : emprunt.dateEmprunt | date('d/m/Y') }}</td>
+                        <td>{{ emprunt.dateRetour is empty ? "" : emprunt.dateRetour | date('d/m/Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

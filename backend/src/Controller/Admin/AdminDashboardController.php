@@ -37,9 +37,11 @@ class AdminDashboardController extends AbstractDashboardController
         $livres = $this->livreRepository->findAll();
         
         $adherents = $this->adherentRepository->findAll();
-
+        $adwithemprunts = $this->adherentRepository->findHasEmprunts();
+        $adwithempruntsatemps = $this->adherentRepository->findHasEmpruntsATemps();
+        $adwithempruntsenretard = $this->adherentRepository->findHasEmpruntsEnRetard();
         $livreDispo = [];
-
+        $url = $this->generateUrl('detail_emprunteur', ['id' => 453]);
         foreach ($livres as $livre) {
             $livreEmprunts = $livre->getEmprunts();
             $livreReservations = $livre->getReservations();
@@ -69,6 +71,10 @@ class AdminDashboardController extends AbstractDashboardController
             'livres' => $livres,
             'livreDispo' => $livreDispo,
             'adherents' => $adherents,
+            'adwithemprunts' => $adwithemprunts,
+            'adwithempruntsatemps' => $adwithempruntsatemps,
+            'adwithempruntsenretard' => $adwithempruntsenretard,
+            'url' => $url,
         ]);
     }
 

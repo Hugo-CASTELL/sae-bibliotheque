@@ -94,5 +94,40 @@
                 </div>
             </div>
         </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Utilisateurs avec emprunts en cours sans retard</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for adherent in adwithempruntsatemps %}
+                        <li>
+                            <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
+                                {{ adherent.nom | upper }} {{ adherent.prenom }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Utilisateurs avec emprunts en cours avec retard</h3>
+                </div>
+                <div class="card-body">
+                    {% for adherent in adwithempruntsenretard %}
+                    <li>
+                        <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
+                            {{ adherent.nom | upper }} {{ adherent.prenom }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

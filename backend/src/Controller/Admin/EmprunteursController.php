@@ -33,6 +33,7 @@ class EmprunteursController extends AbstractDashboardController
                 // Get the result from the repository
         //find where getEmprunts not null
         $result = $this->adherentRepository->findHasEmprunts();
+        //for each result pass a link parameter set to the detail_emprunteur route but
 
         // Set the result to the template parameters
         return $this->render('admin/emprunteurs.html.twig', [
