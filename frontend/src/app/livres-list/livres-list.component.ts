@@ -102,9 +102,10 @@ export class LivresListComponent {
 
     if(livre){
       let isLivreDejaReserve = livre.reservations != null;
+      let isLivreDejaEmprunte = livre.emprunts != null && livre.emprunts.some(emprunt => emprunt.dateRetour == null);
 
       // Si le livre est disponible
-      if(!isLivreDejaReserve){
+      if(!isLivreDejaReserve && !isLivreDejaEmprunte){
         if(this.user && this.user.reservations){
           let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre && reservation.livre.id && reservation.livre.id == idLivre);
           let isUserDejaTroisReservations = this.user.reservations.length >= 3;
