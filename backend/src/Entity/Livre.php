@@ -50,11 +50,11 @@ class Livre
     #[Groups(['livre:read', 'livre:write'])]
     private Collection $auteurs;
 
-    #[ORM\OneToOne(mappedBy: 'livre')]
+    #[ORM\OneToOne(mappedBy: 'livre', cascade: ['remove'])]
     #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
-    #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class)]
+    #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class, cascade: ['remove'])]
     #[Groups(['livre:read'])]
     private Collection $emprunts;
 
