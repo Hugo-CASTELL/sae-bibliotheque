@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Emprunt;
+use App\Entity\Reservations;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,6 +28,26 @@ class EmpruntRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function returnEmprunt(Emprunt $emprunt): void
+    {
+        $emprunt->setDateRetour(new \DateTimeImmutable());
+        $this->save($emprunt, true);
+    }
+  
+    public function addEmpruntResa(Reservations $entity): void 
+    {
+        $emprunt = new Emprunt();
+
+        $emprunt->setAdherent($entity->getAdherent());
+        $emprunt->setLivre($entity->getLivre());
+        $emprunt->setDateEmprunt(new \DateTimeImmutable());
+
+        $this->save($emprunt, true);
+
+        $this->_em->remove($entity);
+        $this->_em->flush();
     }
 
 //    /**

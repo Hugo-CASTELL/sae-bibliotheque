@@ -41,7 +41,7 @@ class AdminDashboardController extends AbstractDashboardController
         $adwithempruntsatemps = $this->adherentRepository->findHasEmpruntsATemps();
         $adwithempruntsenretard = $this->adherentRepository->findHasEmpruntsEnRetard();
         $livreDispo = [];
-
+        $url = $this->generateUrl('detail_emprunteur', ['id' => 453]);
         foreach ($livres as $livre) {
             $livreEmprunts = $livre->getEmprunts();
             $livreReservations = $livre->getReservations();
@@ -74,6 +74,7 @@ class AdminDashboardController extends AbstractDashboardController
             'adwithemprunts' => $adwithemprunts,
             'adwithempruntsatemps' => $adwithempruntsatemps,
             'adwithempruntsenretard' => $adwithempruntsenretard,
+            'url' => $url,
         ]);
     }
 
@@ -85,15 +86,22 @@ class AdminDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::section('Items');
-        yield MenuItem::linkToCrud('Adherents', 'fa fa-user', Adherent::class);
-        yield MenuItem::linkToCrud('Auteur', 'fa fa-user', Auteur::class);
-        yield MenuItem::linkToCrud('Categorie', 'fa fa-user', Categorie::class);
-        yield MenuItem::linkToCrud('Emprunt', 'fa fa-user', Emprunt::class);
-        yield MenuItem::linkToCrud('Livre', 'fa fa-user', Livre::class);
-        yield MenuItem::linkToCrud('Reservations', 'fa fa-user', Reservations::class);
-        yield MenuItem::section('Configuration');
+        yield MenuItem::linkToRoute('Dashboard', 'fa fa-home', 'biblio');
+        yield MenuItem::linkToUrl('Retour au site', 'fa fa-home', 'http://localhost:4200/');
+        yield MenuItem::section('Emprunts');
+        yield MenuItem::linkToRoute('Enregistrer un emprunt', 'fas fa-list', 'add_emprunt');
+        yield MenuItem::linkToRoute('Enregistrer un emprunt depuis une Réservation', 'fas fa-list', 'add_emprunt_resa');
+        yield MenuItem::linkToRoute('Retourner un emprunt', 'fas fa-list', 'return_emprunt');
+        yield MenuItem::section('Gestion');
+        yield MenuItem::linkToRoute('Adhérents avec emprunts','fa fa-user','admin/emprunteurs');
+        yield MenuItem::section('Administration');
+        yield MenuItem::linkToDashboard('Stats', 'fa fa-home');
+        yield MenuItem::linkToCrud('Adhérents', 'fa fa-user', Adherent::class);
+        yield MenuItem::linkToCrud('Auteurs', 'fa fa-user', Auteur::class);
+        yield MenuItem::linkToCrud('Catégories', 'fa fa-user', Categorie::class);
+        yield MenuItem::linkToCrud('Livres', 'fa fa-book', Livre::class);
+        yield MenuItem::linkToCrud('Emprunts', 'fa fa-list', Emprunt::class);
+        yield MenuItem::linkToCrud('Réservations', 'fa fa-list', Reservations::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Utilisateur::class);
     }
 }

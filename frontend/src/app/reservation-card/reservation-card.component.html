@@ -7,7 +7,7 @@
       <h5 class="card-title mb-4">{{titreLivre}}</h5>
       <p class="card-text">Date de réservation : {{dateReservation}}</p>
       <p class="card-text">Temps avant expiration : {{joursRestants}} jours</p>
-      <form (ngSubmit)="deleteReservation()" class="mb-4">
+      <form (ngSubmit)="deleteReservation()">
         <button type="submit" class="btn btn-danger">Annuler</button>
       </form>
     </div>
