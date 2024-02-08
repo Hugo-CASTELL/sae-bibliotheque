@@ -45,6 +45,11 @@ export class LivresListComponent {
     this.reloadUser();
   }
 
+  swapToPage(page: number) {
+    this.currentPage = page;
+    this.reloadLivres();
+  }
+
   reloadLivres() {
     // Récupération du nombre total de livres
     this.apiService.getNbTotalLivres().subscribe((nb: number) => {

@@ -46,13 +46,17 @@
 <div class="d-flex justify-content-evenly">
   <nav aria-label="Pagination" class="mx-auto">
     <ul class="pagination">
-      <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }"><a class="page-link" href="#">Previous</a></li>
-
-      <li class="page-item" [ngClass]="{ 'active': page === currentPage }" *ngFor="let page of pages">
-        <a class="page-link" href="#">{{ page+1 }}</a>
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === 0 }">
+        <button class="page-link" [disabled]="currentPage === 0" (click)="swapToPage(currentPage-1)">Previous</button>
       </li>
 
-      <li class="page-item" [ngClass]="{ 'disabled': currentPage === nbPages-1 }"><a class="page-link" href="#">Next</a></li>
+      <li class="page-item" [ngClass]="{ 'active': page === currentPage }" *ngFor="let page of pages">
+        <button class="page-link" (click)="swapToPage(page)">{{ page+1 }}</button>
+      </li>
+
+      <li class="page-item" [ngClass]="{ 'disabled': currentPage === nbPages-1 }">
+        <button class="page-link" [disabled]="currentPage === nbPages-1" (click)="swapToPage(currentPage+1)">Next</button>
+      </li>
     </ul>
   </nav>
 </div>
