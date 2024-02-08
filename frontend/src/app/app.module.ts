@@ -8,13 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { LoginComponent } from './login/login.component';
 import { AccountComponent } from './account/account.component';
+import { LivreDetailsComponent } from './livre-details/livre-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LivresListComponent,
     LoginComponent,
-    AccountComponent
+    AccountComponent,
+    LivreDetailsComponent
   ],
   imports: [
     BrowserModule,

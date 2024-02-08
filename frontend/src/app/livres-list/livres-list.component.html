@@ -30,7 +30,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3" *ngFor="let livre of filterLivres()">
+    <div class="col-md-3" [routerLink]="['/details', livre.id]" style="cursor: pointer;" *ngFor="let livre of filterLivres()">
       <div class="card m-3">
         <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
         <div class="card-body">
