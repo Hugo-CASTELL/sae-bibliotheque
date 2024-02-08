@@ -46,4 +46,30 @@ class AdherentRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+
+    public function findHasEmpruntsEnRetard(): array
+    {
+        return $this->createQueryBuilder('a')
+        ->innerJoin('a.emprunts', 'e') 
+        ->where('e.id IS NOT NULL') 
+        ->andWhere('e.dateRetour IS NULL')
+        ->andWhere('e.dateEmprunt < :threeWeeksAgo')
+        ->setParameter('threeWeeksAgo', new \DateTime('-3 weeks'))
+        ->orderBy('a.nom', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findHasEmpruntsATemps(): array
+    {
+        return $this->createQueryBuilder('a')
+        ->innerJoin('a.emprunts', 'e') 
+        ->where('e.id IS NOT NULL') 
+        ->andWhere('e.dateRetour IS NULL')
+        ->andWhere('e.dateEmprunt >= :threeWeeksAgo')
+        ->setParameter('threeWeeksAgo', new \DateTime('-3 weeks'))
+        ->orderBy('a.nom', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
 }

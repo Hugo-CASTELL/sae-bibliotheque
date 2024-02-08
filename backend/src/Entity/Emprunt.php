@@ -90,7 +90,11 @@ class Emprunt
     }
 
     public function __toString(): string
-    {
+    {   
+        //check if date de retour is set
+        if ($this->dateRetour === null) {
+            return $this->id . ' ' . $this->dateEmprunt->format('Y-m-d') . ' ' . 'null' . ' ' . $this->adherent . ' ' . $this->livre;
+        }
         return $this->id . ' ' . $this->dateEmprunt->format('Y-m-d') . ' ' . $this->dateRetour->format('Y-m-d') . ' ' . $this->adherent . ' ' . $this->livre;
     }
 }
