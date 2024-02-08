@@ -3,7 +3,7 @@
 {% block content %}
     {{ form_start(form) }}
         {{ form_errors(form) }}
-        <h1>Enregistrer un emprunt</h1>
+        <h1>Emprunt</h1>
         <div class="form">
             <div class="form-field mb-3">
                 <label for="form_adherent" class="form-label">Adherent</label>
@@ -20,27 +20,6 @@
                         <option value="{{ value }}">{{ label }}</option>
                     {% endfor %}
                 </select>
-            </div>
-            <div class="form-field mb-3">
-                <label for="form_dateEmprunt" class="form-label">Date d'Emprunt</label>
-                {# {{ form_widget(form.dateEmprunt) }} #}
-                <div class="input-group">
-                    <select id="form_dateEmprunt_day" name="{{ field_name(form.dateEmprunt) }}[day]" class="form-control">
-                        {% for day in field_choices(form.dateEmprunt.day) %}
-                            <option value="{{ day }}">{{ day }}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="form_dateEmprunt_month" name="{{ field_name(form.dateEmprunt) }}[month]" class="form-control">
-                        {% for label, value in field_choices(form.dateEmprunt.month) %}
-                            <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="form_dateEmprunt_year" name="{{ field_name(form.dateEmprunt) }}[year]" class="form-control">
-                        {% for year in field_choices(form.dateEmprunt.year) %}
-                            <option value="{{ year }}">{{ year }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
             </div>
         </div>
         <button class="btn full">{{ button_label|default('Enregistrer') }}</button>
