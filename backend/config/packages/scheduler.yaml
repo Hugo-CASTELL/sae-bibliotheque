@@ -1,6 +1,0 @@
-framework:
-    scheduler:
-        tasks:
-            cleanup_reservations:
-                cron: '0 1 * * *'
-                command: 'php bin/console cleanup_reservations'
