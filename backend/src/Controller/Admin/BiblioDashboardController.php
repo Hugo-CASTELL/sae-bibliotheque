@@ -35,8 +35,8 @@ class BiblioDashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Retour au site', 'fa fa-home', 'http://localhost:4200/');
         yield MenuItem::section('Emprunts');
         yield MenuItem::linkToRoute('Enregistrer un emprunt', 'fas fa-list', 'add_emprunt');
-        yield MenuItem::linkToRoute('Retourner un emprunt', 'fas fa-list', 'return_emprunt');
         yield MenuItem::linkToRoute('Enregistrer un emprunt depuis une Réservation', 'fas fa-list', 'add_emprunt_resa');
+        yield MenuItem::linkToRoute('Retourner un emprunt', 'fas fa-list', 'return_emprunt');
         yield MenuItem::section('Gestion');
         yield MenuItem::linkToRoute('Adhérents avec emprunts','fa fa-user','admin/emprunteurs');
 
