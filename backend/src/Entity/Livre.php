@@ -49,7 +49,7 @@ class Livre
     #[Groups(['livre:read', 'livre:write'])]
     private Collection $auteurs;
 
-    #[ORM\OneToOne(mappedBy: 'livre', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'livre')]
     #[Groups(['livre:read', 'livre:write'])]
     private ?Reservations $reservations = null;
 
@@ -217,5 +217,25 @@ class Livre
     public function __toString(): string
     {
         return $this->titre;
+    }
+
+    public function isDisponible(): bool
+    {
+        if($this->reservations !== null){
+            return false;
+        }
+
+        foreach($this->emprunts as $emprunt){
+            if($emprunt->getDateRetour() === null){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isReservedBy(Adherent $adherent): bool
+    {
+        return $this->reservations !== null & $this->reservations->getAdherent() === $adherent;
     }
 }

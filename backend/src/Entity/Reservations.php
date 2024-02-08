@@ -32,13 +32,12 @@ class Reservations
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservations:read', 'reservations:write'])]
-    private Adherent $adherent;
+    private ?Adherent $adherent;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['reservations:read', 'reservations:write'])]
-    private Livre $livre;
+    private ?Livre $livre;
 
     public function getId(): ?int
     {
@@ -74,7 +73,7 @@ class Reservations
         return $this->livre;
     }
 
-    public function setLivre(Livre $livre): static
+    public function setLivre(?Livre $livre): static
     {
         $this->livre = $livre;
 

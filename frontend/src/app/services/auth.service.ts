@@ -9,7 +9,7 @@ export class AuthService {
 }*/
 
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, switchMap } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { ApiService } from './api.service';
 import { inputLogin } from '../models/api/input/inputLogin';
 import { outputLogin } from '../models/api/output/outputLogin';
@@ -45,8 +45,28 @@ export class AuthService {
     }
   }
 
-  getToken(): string | null {
-    console.log('Token:', localStorage.getItem('token'));
-    return localStorage.getItem('token');
+  logOut(): boolean {
+    try {
+      localStorage.removeItem('token');
+      return true;
+    }
+    catch (error) {
+      return false;
+    }
+  }
+
+  isLogged(): Observable<boolean> {
+    return this.apiService.getUser().pipe(
+      switchMap((response: any) => {
+        if (response) {
+          return of(true);
+        }
+        return of(false);
+      }),
+      catchError(error => {
+        console.log("Current user is not connected");
+        return of(false);
+      })
+    )
   }
 }

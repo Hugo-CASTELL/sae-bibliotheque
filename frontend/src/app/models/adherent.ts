@@ -3,8 +3,8 @@ import { Reservations } from "./reservations";
 
 export class Adherent {
     constructor(
-        public reservations: Reservations[],
-        public emprunts: Emprunt[],
+        public reservations?: Reservations[],
+        public emprunts?: Emprunt[],
         public id?: number,
         public dateAdhesion?: Date,
         public nom?: string,
