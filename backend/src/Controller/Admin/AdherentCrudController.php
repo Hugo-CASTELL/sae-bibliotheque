@@ -2,6 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\EmprunteursFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Adherent;
 use DateTime;
 use DateTimeImmutable;

@@ -22,9 +22,7 @@ class LivreController extends AbstractController
         return $this->json($livres, 200, [], ['groups' => 'livre:read']);
     }
 
-    #[Route('/api/livres/search', name: 'app_api_livres_search')]
-    public function searchLivres(Request $request, LivreRepository $livreRepository): JsonResponse
-    {
+    private function helperLivres(Request $request, LivreRepository $livreRepository){
         $param = [];
 
         $titre = $request->query->get('titre');
@@ -87,9 +85,22 @@ class LivreController extends AbstractController
         $limit = $request->query->get('limit');
         $param['limit'] = $limit ? $limit : 10;
 
-        $livres = $livreRepository->search($param);
+        return $livreRepository->search($param);
+    }
+
+    #[Route('/api/livres/search', name: 'app_api_livres_search')]
+    public function searchLivres(Request $request, LivreRepository $livreRepository): JsonResponse
+    {
+        $livres = $this->helperLivres($request, $livreRepository);
 
         return $this->json($livres, 200, [], ['groups' => 'livre:read']);
+    }
+
+    #[Route('/api/livres/total', name: 'app_api_livres_total')]
+    public function total(Request $request, LivreRepository $livreRepository): JsonResponse
+    {
+        $livres = $this->helperLivres($request, $livreRepository);
+        return $this->json(count($livres), 200);
     }
 
     #[Route('/api/livres/{id}', name: 'app_api_livre_show')]
