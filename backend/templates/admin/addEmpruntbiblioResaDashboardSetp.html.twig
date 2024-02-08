@@ -1,0 +1,51 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    {# {{ form_start(form) }}
+        {{ form_errors(form) }} #}
+        <h1>Emprunt</h1>
+        <div class="form">
+            <div id="step1" class="form-field mb-3">
+                {{ form_start(form_adherent )}}
+                <label for="form_adherent" class="form-label">Adherent</label>
+                <select id="form_adherent" name="{{ field_name(form_adherent.adherent) }}" class="form-control" placeholder="Choir une adhérent">
+                    {% for label, value in field_choices(form_adherent.adherent) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                <button onClick"nextStep()">Suivant</button>
+                {{ form_end(form_adherent) }}
+            </div>
+            <div id="step2" class="form-field mb-3" style="">
+                {{ form_start(form_reservation) }}
+                <label for="form_livre" class="form-label">Reservation</label>
+                <select id="form_reservation" name="{{ field_name(form_reservation.reservation) }}" class="form-control">
+                    {% for label, value in field_choices(form_reservation.reservation) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button onClick"PreviousStep()">Précédent</button>
+                <button class="btn full">{{ button_label|default('Enregistrer') }}</button>
+                {{ form_end(form_reservation) }}
+            </div>
+     </div>
+        {# <button class="btn full">{{ button_label|default('Enregistrer') }}</button> #}
+
+    {# {{ form_end(form) }} #}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function nextStep() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        }
+
+        function previousStep() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+        }
+    </script>
+{% endblock %}
