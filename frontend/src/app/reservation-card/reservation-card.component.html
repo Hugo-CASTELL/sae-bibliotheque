@@ -1,10 +1,13 @@
-{{id}}
 <div class="card">
     <img src="{{photoLivre}}" class="card-img-top" alt="reservation.livre.titre"/>
     <div class="card-body">
-      <h5 class="card-title"></h5>
-      <p class="card-text">Jours avant expiration :</p>
-      <form (ngSubmit)="deleteReservation()">
+      <div class="alert alert-danger" role="alert" *ngIf="cancelReservationFailed">
+        Une erreur inattendue est survenue, réessayer plus tard
+      </div>
+      <h5 class="card-title mb-4">{{titreLivre}}</h5>
+      <p class="card-text">Date de réservation : {{dateReservation}}</p>
+      <p class="card-text">Temps avant expiration : {{joursRestants}} jours</p>
+      <form (ngSubmit)="deleteReservation()" class="mb-4">
         <button type="submit" class="btn btn-danger">Annuler</button>
       </form>
     </div>

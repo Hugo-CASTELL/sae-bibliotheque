@@ -91,6 +91,7 @@ export class LivresListComponent {
       // Si le livre est disponible
       if(!isLivreDejaReserve){
         if(this.user && this.user.reservations){
+          console.log(this.user.reservations);
           let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre.id == idLivre);
           let isUserDejaTroisReservations = this.user.reservations.length >= 3;
 

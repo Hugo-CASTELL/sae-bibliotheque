@@ -3,7 +3,6 @@ import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { Reservations } from '../models/reservations';
-import { Livre } from '../models/livre';
 
 @Component({
   selector: 'app-reservation-card',
@@ -15,6 +14,11 @@ export class ReservationCardComponent {
   @Input() id?: number;
 
   photoLivre?: string = "";
+  titreLivre?: string = "";
+  dateReservation?: string = "";
+  joursRestants?: number = undefined;
+
+  cancelReservationFailed: boolean = false;
 
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private apiService: ApiService) {
@@ -23,12 +27,24 @@ export class ReservationCardComponent {
   ngOnInit() {
     console.log(this.id);
     this.apiService.getReservation(this.id).subscribe((res: Reservations) => {
-      console.log("RESERVATION card id " + this.id);
-      console.log(res);
+      this.photoLivre = res.livre.photoCouverture;
+      this.titreLivre = res.livre.titre;
+      if (res && res.dateResa) {
+        this.dateReservation = new Date(res.dateResa).getDate() + "/" + new Date(res.dateResa).getMonth() + 1 + "/" + new Date(res.dateResa).getFullYear();
+        let Difference_In_Time = new Date().getTime() - new Date(res.dateResa).getTime();
+        let Difference_In_Days = Math.round (Difference_In_Time / (1000 * 3600 * 24));
+        this.joursRestants = 8 - Difference_In_Days;
+        if (this.joursRestants < 0) {this.joursRestants = 0}
+      }
     });
   }
 
   deleteReservation() {
-    console.log("Delete réservation " + this.id);
+    this.apiService.deleteReservation(this.id).subscribe((response) => {
+      window.location.reload();
+    },
+    (error) => {
+      this.cancelReservationFailed = true;
+    });
   }
 }
