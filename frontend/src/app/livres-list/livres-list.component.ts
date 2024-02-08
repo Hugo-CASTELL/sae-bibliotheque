@@ -16,18 +16,27 @@ export class LivresListComponent {
   livres: Livre[] = [];
   categories: Categorie[] = [];
   selectedCategory?: string = "";
-  searchText: string = '';
+  searchTitre: string = '';
+  searchAuteurPrenom: string = '';
+  searchAuteurNom: string = '';
   isAvailable: boolean = false;
   public user: Adherent | null = null;
   public reservationSuccess: boolean = false;
 
+  public currentPage: number = 0;
+  public nbPages: number = 0;
+  public nbLivresOnPage: number = 25;
+  public nbLivresTotal: number = this.nbLivresOnPage;
+  public pages: number[] = [];
+
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    //Récupération des livres
-    this.apiService.getLivres().subscribe((data: Livre[]) => {
-      this.livres = data;
-    });
+    // Variables de pagination
+    this.currentPage = 0;
+
+    // Récupération des livres et de la pagination
+    this.reloadLivres();
 
     //Récupération des catégories
     this.apiService.getCategories().subscribe((data: Categorie[]) => {
@@ -36,6 +45,37 @@ export class LivresListComponent {
 
     // Récupération de l'utilisateur s'il est connecté
     this.reloadUser();
+  }
+
+  swapToPage(page: number) {
+    this.currentPage = page;
+    this.reloadLivres();
+  }
+
+  search(){
+    this.currentPage = 0;
+    this.reloadLivres();
+  }
+
+  reloadLivres() {
+    // Récupération du nombre total de livres
+    this.apiService.getNbTotalLivres(this.constructAdditionalFilter()).subscribe((nb: number) => {
+
+      // Récupération des livres dans l'intervalle de pagination
+      this.apiService.getFilteredLivres(this.currentPage, this.nbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
+        this.livres = data;
+        console.log(data);
+      });
+
+      // Mise à jour de la pagination
+      this.nbLivresTotal = nb;
+      this.reloadPages();
+    });
+  }
+
+  reloadPages() {
+    this.nbPages = Math.ceil(this.nbLivresTotal / this.nbLivresOnPage);
+    this.pages = Array(this.nbPages).fill(0).map((x,i)=>i);
   }
 
   reloadUser(){
@@ -59,7 +99,7 @@ export class LivresListComponent {
       // Si le livre est disponible
       if(!isLivreDejaReserve){
         if(this.user && this.user.reservations){
-          let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre.id == idLivre);
+          let isUserDejaReserve = this.user.reservations.some(reservation => reservation.livre && reservation.livre.id && reservation.livre.id == idLivre);
           let isUserDejaTroisReservations = this.user.reservations.length >= 3;
 
           // On définit s'il peut réserver un livre
@@ -85,38 +125,30 @@ export class LivresListComponent {
     });
   }
 
-  filterLivres(): Livre[] {
+  constructAdditionalFilter(): string {
 
-    let filteredResults;
+    let additionalFilter: string = '';
 
-    //Recherche par titre/auteur
-    filteredResults = this.livres.filter(livre => livre.titre?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                                                  livre.auteurs.some(auteur => (auteur.nom + " " + auteur.prenom).toLowerCase().includes(this.searchText.toLowerCase())) ||
-                                                  livre.auteurs.some(auteur => (auteur.prenom + " " + auteur.nom).toLowerCase().includes(this.searchText.toLowerCase())));
-
-    //Recherche par catégorie
-    if(this.selectedCategory) {
-      filteredResults = filteredResults.filter(livre => livre.categories.some(categorie => categorie.id == this.selectedCategory));
+    // Définir les conditions de filtrage dans la requête
+    if(this.selectedCategory){
+      additionalFilter += "&categorie=" + this.categories.find(categorie => categorie.id == this.selectedCategory)?.nom;
     }
 
-    //Recherche par disponibilité
-    if(this.isAvailable) {
-
-      console.log("1/3 : " + filteredResults.length);
-
-      //Le livre ne doit avoir aucune réservation en cours
-      filteredResults = filteredResults.filter(livre => livre.reservations == null);
-
-      console.log("2/3 : " + filteredResults.length);
-
-      //Le livre doit pas être emprunté actuellement
-      filteredResults = filteredResults.filter(livre => !livre.emprunts?.some(emprunt => emprunt?.dateRetour == null));
-
-      console.log("3/3 : " + filteredResults.length);
-
+    if(this.searchTitre != ''){
+      additionalFilter += "&titre=" + this.searchTitre;
     }
 
-    return filteredResults;
+    if(this.searchAuteurNom != ''){
+      additionalFilter += "&auteur_nom=" + this.searchAuteurNom;
+    }
+
+    if(this.searchAuteurPrenom != ''){
+      additionalFilter += "&auteur_prenom=" + this.searchAuteurPrenom;
+    }
+
+    console.log("Additional filter");
+    console.log(additionalFilter);
+    return additionalFilter;
   }
 
 }

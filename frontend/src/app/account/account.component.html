@@ -1,12 +1,16 @@
-<div class="mb-4 row">
-    <h1>Mon compte</h1>
+<div class="mb-4 row" *ngIf="isAdherent">
+    <h1>Espace adhérent</h1>
 </div>
 
-<form (ngSubmit)="onSubmit()">
+<div class="alert alert-warning" role="alert" *ngIf="!isAdherent">
+    Veuillez vous créer un compte adhérent via EasyAdmin pour pouvoir utiliser les fonctionnalités adhérent
+</div>
+
+<form (ngSubmit)="onSubmit()" *ngIf="isAdherent">
     <div class="mb-3 row">
         <label for="id" class="col-sm-2 col-form-label">Id</label>
         <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="id" value="1" required>
+            <input type="text" readonly class="form-control-plaintext" name="id" id="id" [(ngModel)]="user.id" required>
         </div>
     </div>
     <div class="mb-3 row">
