@@ -36,7 +36,7 @@
         <div class="card-body">
           <h5 class="card-title">{{livre.titre}}</h5>
           <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary">Réserver</button>
-          <button *ngIf="user" [disabled]="!user || !canReserve || !livre.id" (click)="createReservation(livre.id)" class="btn btn-primary">Réserver</button>
+          <button *ngIf="user && livre.id" [disabled]="(user.reservations && user.reservations.length >= 3) || !canReserveBook(livre.id)" (click)="createReservation(livre.id)" class="btn btn-primary">Réserver</button>
         </div>
       </div>
     </div>
