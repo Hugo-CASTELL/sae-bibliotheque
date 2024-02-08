@@ -18,6 +18,7 @@ export class AccountComponent {
   public user: Adherent = new Adherent();
   public errorMessage: string = "";
   public confirmationMessage: string = "";
+  public isAdherent: boolean = true;
 
   private mailBeforeUpdate: string = "";
 
@@ -27,9 +28,16 @@ export class AccountComponent {
         this.navigateToLoginPage();
       }
     });
+
     this.apiService.getUser().subscribe((response) => {
-      this.user = response.adherent;
-      this.mailBeforeUpdate = response.adherent.email;
+      console.log(response);
+      if(!response.adherent) {
+        this.isAdherent = false;
+      }
+      else {
+        this.mailBeforeUpdate = response.adherent.email;
+        this.user = response.adherent;
+      }
     });
   }
 

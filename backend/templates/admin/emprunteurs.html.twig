@@ -1,0 +1,79 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}                                                           
+<table class="table datagrid ">
+    <thead>
+        <tr>                                                                                                           
+            <th data-column="nom" class="  header-for-field-text text-" dir="ltr">
+                Nom de l'adherent </th>
+                                                                                
+            <th data-column="prenom" class="  header-for-field-text text-" dir="ltr">
+                Prenom de l'adherent
+            </th>
+                                                                                
+            <th data-column="email" class="  header-for-field-text text-" dir="ltr">
+                email de l'adherent
+            </th>
+                                                                                
+            <th data-column="adressePostale" class="  header-for-field-text text-" dir="ltr">
+                Adresse de l'adherent
+            </th>
+                                                                                
+            <th data-column="numTel" class="  header-for-field-text text-" dir="ltr">
+                Numéro de téléphone de l'adherent</th>
+                                                                                
+            <th data-column="photo" class="  header-for-field-text text-" dir="ltr">
+                Photo de l'adherent</th>
+                                                                                
+            <th data-column="dateNaissance" class="  header-for-field-date text-" dir="ltr">
+                Date de naissance</th>
+                                                                                
+            <th data-column="dateAdhesion" class="  header-for-field-date text-" dir="ltr">
+                Date d'adhésion</th>
+        
+            <th data-column="nbEmprunts" class="  header-for-field-date text-" dir="ltr">
+                Nombre d'emprunts</th>
+        
+            <th class="actions-as-dropdown-table-head" dir="ltr">
+                <span class="sr-only">Actions</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for entity in result %}
+        <tr data-id="{{ entity.id }}" style="max-height: 100px; height: 100px;">
+            <td data-column="nom" data-label="Nom de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.nom }}">{{ entity.nom }}</span>
+            </td>
+            <td data-column="prenom" data-label="Prenom de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.prenom }}">{{ entity.prenom }}</span>
+            </td>
+            <td data-column="email" data-label="eamil de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.email }}">{{ entity.email }}</span>
+            </td>
+            <td data-column="adressePostale" data-label="Adresse de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.adressePostale }}">{{ entity.adressePostale }}</span>
+            </td>
+            <td data-column="numTel" data-label="Numéro de téléphone de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.numTel }}">{{ entity.numTel }}</span>
+            </td>
+            <td data-column="photo" data-label="Photo de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.photo }}">{{ entity.photo }}</span>
+            </td>
+            <td data-column="dateNaissance" data-label="Date de naissance" class=" text- field-date" dir="ltr">
+                <time datetime="{{ entity.dateNaissance |date('Y-m-d')}}" title="{{ entity.dateNaissance |date('Y-m-d')}}">{{ entity.dateNaissance|date('Y-m-d') }}</time>
+            </td>
+            <td data-column="dateAdhesion" data-label="Date d'adhésion" class=" text- field-date" dir="ltr">
+                <time datetime="{{ entity.dateAdhesion |date('Y-m-d')}}" title="{{ entity.dateAdhesion |date('Y-m-d')}}">{{ entity.dateAdhesion |date('Y-m-d')}}</time>
+            </td>
+            <td data-column="emprunts" data-label="Photo de l'adherent" class=" text- field-text" dir="ltr">
+                <span title="{{ entity.emprunts | length }}">{{ entity.emprunts | length }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+
+
+{% endblock %}
