@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
 import { Reservations } from '../models/reservations';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-livres-list',
@@ -29,7 +30,7 @@ export class LivresListComponent {
   public nbLivresTotal: number = this.nbLivresOnPage;
   public pages: number[] = [];
 
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(private apiService: ApiService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     // Variables de pagination
@@ -149,6 +150,10 @@ export class LivresListComponent {
     console.log("Additional filter");
     console.log(additionalFilter);
     return additionalFilter;
+  }
+
+  bookDetails(idLivre?: number) {
+    this.router.navigate(['../livre/'+idLivre], { relativeTo: this.route });
   }
 
 }

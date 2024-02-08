@@ -8,11 +8,11 @@ import { LivreDetailsComponent } from './livre-details/livre-details.component';
 
 const routes: Routes = [
   { path: 'livres',  component: LivresListComponent },
-  { path: 'details/:id', component: LivreDetailsComponent },
-  { path: 'details', redirectTo: 'livres'},
+  { path: 'livre/:id', component: LivreDetailsComponent },
   { path: 'reservation',  component: ReservationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'account', component: AccountComponent }
+  { path: 'account', component: AccountComponent },
+  { path: '', redirectTo: '/livres', pathMatch: 'full' },
 ];
 
 @NgModule({

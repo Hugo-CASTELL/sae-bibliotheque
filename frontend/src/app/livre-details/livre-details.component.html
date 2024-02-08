@@ -4,14 +4,14 @@
       <div class="card m-1">
         <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
         <div class="card-body">
-          <h5 class="card-title">{{livre.titre}}</h5>
-          <p class="card-text">Auteurs : {{ auteurs }}</p>
-          <p class="card-text">Date de sortie : {{ dateSortie }}</p>
-          <p class="card-text">Langue (code) : {{ langue }}</p>
-          <p class="card-text">Catégories : {{ categories }}</p>
+          <h4 class="card-title mb-4"><b>{{livre.titre}}</b></h4>
+          <p class="card-text"><u>Auteurs</u> : {{ auteurs }}</p>
+          <p class="card-text"><u>Date de sortie</u> : {{ dateSortie }}</p>
+          <p class="card-text"><u>Langue (code)</u> : {{ langue }}</p>
+          <p class="card-text"><u>Catégorie(s)</u> : {{ categories }}</p>
         </div>
         <div class="d-flex justify-content-around mb-2">
-          <button class="btn btn-primary" (click)="backToLastPage()">Page précédente</button>
+          <button class="btn btn-primary" (click)="backToLastPage()">← Page précédente</button>
         </div>
       </div>
     </div>
