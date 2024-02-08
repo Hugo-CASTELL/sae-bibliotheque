@@ -9,7 +9,6 @@ import { inputLogin } from '../models/api/input/inputLogin';
 import { outputLogin } from '../models/api/output/outputLogin';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
-import { AuthService } from './auth.service';
 import { Reservations } from '../models/reservations';
 
 @Injectable({
@@ -57,6 +56,14 @@ export class ApiService {
 
   createReservation(data: any): any {
     return this.http.post<Reservations>(`${this.apiUrl}/user/reservations/create`, data, this.getHttpHeader());
+  }
+
+  getReservation(id?: number) : Observable<any> {
+    return this.http.get<Reservations>(`${this.apiUrl}/user/reservations/${id}`, this.getHttpHeader());
+  }
+
+  deleteReservation(id?: number) : Observable<any> {
+    return this.http.delete<Reservations>(`${this.apiUrl}/user/reservations/${id}`, this.getHttpHeader())
   }
 
   private getHttpHeader(): any {
