@@ -21,9 +21,14 @@ export class ReservationComponent {
     });
 
     this.apiService.getUser().subscribe((response) => {
-      this.reservations = response.adherent.reservations;
-      console.log("Réservations utilisateur (page réservation) :");
-      console.log(this.reservations);
+      if(!response.adherent) {
+        this.navigateToAccountPage();
+      }
+      else {
+        this.reservations = response.adherent.reservations;
+        console.log("Réservations utilisateur (page réservation) :");
+        console.log(this.reservations);
+      }
     });
   }
 
@@ -33,6 +38,10 @@ export class ReservationComponent {
 
   navigateToLoginPage() {
     this.router.navigate(['../login'], { relativeTo: this.route });
+  }
+
+  navigateToAccountPage() {
+    this.router.navigate(['../account'], { relativeTo: this.route });
   }
   
 }
