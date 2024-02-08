@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -96,6 +97,46 @@ class LivreRepository extends ServiceEntityRepository
         return $queryBuilder
             ->getQuery()
             ->getResult();
+    }
+
+    public function livreDispo(): QueryBuilder {
+        $qb = $this->createQueryBuilder('l');
+
+        $qb->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->orX(
+                        $qb->expr()->notIn(
+                            'l.id',
+                            $this->_em->createQueryBuilder()
+                                ->select('l2.id')
+                                ->from('App\Entity\Emprunt', 'e2')
+                                ->join('App\Entity\Livre', 'l2')
+                                ->andWhere('e2.livre = l2')
+                                ->andWhere('e2.dateRetour IS NULL')
+                                ->getDQL()),
+                        $qb->expr()->notIn(
+                            'l.id',
+                            $this->_em->createQueryBuilder()
+                                ->select('l3.id')
+                                ->from('App\Entity\Emprunt', 'e3')
+                                ->join('App\Entity\Livre', 'l3')
+                                ->andWhere('e3.livre = l3')
+                                ->getDQL()
+                        )
+                    ),
+                    $qb->expr()->notIn(
+                        'l.id',
+                        $this->_em->createQueryBuilder()
+                            ->select('l4.id')
+                            ->from('App\Entity\Reservations', 'r4')
+                            ->join('App\Entity\Livre', 'l4')
+                            ->andWhere('r4.livre = l4')
+                            ->getDQL()
+                    )
+                )
+            );
+
+        return $qb;
     }
 
 //    /**

@@ -78,7 +78,7 @@ class ReservationController extends AbstractController
         $adherent = $adherentRepository->findOneBy(['email' => $user->getEmail()]);
 
         $reservation = $adherent->getReservations()->filter(fn($reservation) => $reservation->getId() === $id);
-
+        dump($reservation);
         return $this->json($reservation, 200, [], ['groups' => 'reservations:read']);
     }
 
