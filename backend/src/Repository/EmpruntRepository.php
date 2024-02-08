@@ -30,6 +30,12 @@ class EmpruntRepository extends ServiceEntityRepository
         }
     }
 
+    public function returnEmprunt(Emprunt $emprunt): void
+    {
+        $emprunt->setDateRetour(new \DateTimeImmutable());
+        $this->save($emprunt, true);
+    }
+  
     public function addEmpruntResa(Reservations $entity): void 
     {
         $emprunt = new Emprunt();
