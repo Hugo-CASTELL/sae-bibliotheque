@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AdherentRepository;
-use App\Controller\Admin\BiblioDashboardController;
+use App\Repository\EmpruntRepository;
 use App\Entity\Adherent;
 use App\Entity\Auteur;
 use App\Entity\Categorie;
@@ -21,11 +21,13 @@ class DetailUserController extends AbstractDashboardController
 
     private $adminContextProvider;
     private $adherentRepository;
+    private $empruntRepository;
 
-    public function __construct(AdminContextProvider $adminContextProvider, AdherentRepository $adherentRepository)
+    public function __construct(AdminContextProvider $adminContextProvider, AdherentRepository $adherentRepository, EmpruntRepository $empruntRepository)
     {
         $this->adminContextProvider = $adminContextProvider;
         $this->adherentRepository = $adherentRepository;
+        $this->empruntRepository = $empruntRepository;
     }
 
     #[Route('/biblio/emprunteur/{id}', name: 'detail_emprunteur')]

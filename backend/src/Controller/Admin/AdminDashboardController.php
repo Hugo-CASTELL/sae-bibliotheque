@@ -40,6 +40,8 @@ class AdminDashboardController extends AbstractDashboardController
         $adwithemprunts = $this->adherentRepository->findHasEmprunts();
         $adwithempruntsatemps = $this->adherentRepository->findHasEmpruntsATemps();
         $adwithempruntsenretard = $this->adherentRepository->findHasEmpruntsEnRetard();
+        $empruntsenc = $this->empruntRepository->findEmpruntsEnCours();
+        $empruntsenret = $this->empruntRepository->findEmpruntsEnRetard();
         $livreDispo = [];
         $url = $this->generateUrl('detail_emprunteur', ['id' => 453]);
         foreach ($livres as $livre) {
@@ -74,6 +76,8 @@ class AdminDashboardController extends AbstractDashboardController
             'adwithemprunts' => $adwithemprunts,
             'adwithempruntsatemps' => $adwithempruntsatemps,
             'adwithempruntsenretard' => $adwithempruntsenretard,
+            'empruntsenc' => $empruntsenc,
+            'empruntsenret' => $empruntsenret,
             'url' => $url,
         ]);
     }
