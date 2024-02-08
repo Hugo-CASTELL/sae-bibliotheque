@@ -29,7 +29,7 @@ export class EmpruntCardComponent {
 
     let Difference_In_Time = dateActuelle.getTime() - dateEmprunt.getTime();
     let Difference_In_Days = Math.round (Difference_In_Time / (1000 * 3600 * 24));
-    let joursRestants = 22 - Difference_In_Days;
+    let joursRestants = 21 - Difference_In_Days;
 
     return joursRestants < 0 ? `${-joursRestants} jours de retard` : `${joursRestants} jours restants`;
 
