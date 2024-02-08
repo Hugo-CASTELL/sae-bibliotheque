@@ -10,7 +10,13 @@
 
     <div class="col ml-0 mr-0">
       <div class="input-group">
-        <input type="search" class="form-control" placeholder="Auteur" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="searchAuteur"/>
+        <input type="search" class="form-control" placeholder="Nom Auteur" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="searchAuteurNom"/>
+      </div>
+    </div>
+
+    <div class="col ml-0 mr-0">
+      <div class="input-group">
+        <input type="search" class="form-control" placeholder="Prenom auteur" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="searchAuteurPrenom"/>
       </div>
     </div>
 
@@ -18,7 +24,7 @@
       <select class="form-select" [(ngModel)]="selectedCategory">
         <option value="" selected>Sélectionner une catégorie</option>
         <option value="{{categorie.id}}" *ngFor="let categorie of categories">
-          {{ categorie.nom }} ({{categorie.livres.length}} livres)
+          {{ categorie.nom }}
         </option>
       </select>
     </div>

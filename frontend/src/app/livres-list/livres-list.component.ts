@@ -17,7 +17,8 @@ export class LivresListComponent {
   categories: Categorie[] = [];
   selectedCategory?: string = "";
   searchTitre: string = '';
-  searchAuteur: string = '';
+  searchAuteurPrenom: string = '';
+  searchAuteurNom: string = '';
   isAvailable: boolean = false;
   public user: Adherent | null = null;
   public reservationSuccess: boolean = false;
@@ -137,8 +138,12 @@ export class LivresListComponent {
       additionalFilter += "&titre=" + this.searchTitre;
     }
 
-    if(this.searchAuteur != ''){
-      additionalFilter += "&auteur=" + this.searchAuteur;
+    if(this.searchAuteurNom != ''){
+      additionalFilter += "&auteur_nom=" + this.searchAuteurNom;
+    }
+
+    if(this.searchAuteurPrenom != ''){
+      additionalFilter += "&auteur_prenom=" + this.searchAuteurPrenom;
     }
 
     console.log("Additional filter");

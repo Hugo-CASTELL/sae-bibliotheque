@@ -56,18 +56,25 @@ class LivreRepository extends ServiceEntityRepository
                 ->setParameter('categorie_nom', $param['categorie_nom']);
         }
 
-        if (isset($param['auteurs_nom'])) {
+        if (isset($param['auteurs_nom']) && isset($param['auteurs_prenom'])) {
             $queryBuilder
                 ->join('l.auteurs', 'a')
-                ->andWhere('a.nom = :auteurs_nom')
-                ->setParameter('auteurs_nom', $param['auteurs_nom']);
+                ->andWhere('a.nom LIKE :auteurs_nom')
+                ->andWhere('a.prenom LIKE :auteurs_prenom')
+                ->setParameter('auteurs_nom', '%' . $param['auteurs_nom'] . '%')
+                ->setParameter('auteurs_prenom', '%' . $param['auteurs_prenom'] . '%');
         }
-
-        if (isset($param['auteurs_prenom'])) {
+        else if (isset($param['auteurs_nom'])) {
             $queryBuilder
                 ->join('l.auteurs', 'a')
-                ->andWhere('a.prenom = :auteurs_prenom')
-                ->setParameter('auteurs_prenom', $param['auteurs_prenom']);
+                ->andWhere('a.nom LIKE :auteurs_nom')
+                ->setParameter('auteurs_nom', '%' . $param['auteurs_nom'] . '%');
+        }
+        else if (isset($param['auteurs_prenom'])) {
+            $queryBuilder
+                ->join('l.auteurs', 'a')
+                ->andWhere('a.prenom LIKE :auteurs_prenom')
+                ->setParameter('auteurs_prenom', '%' . $param['auteurs_prenom'] . '%');
         }
 
         if (isset($param['auteurs_nationalite'])) {
