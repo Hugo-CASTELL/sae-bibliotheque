@@ -24,13 +24,14 @@ export class LivresListComponent {
   public currentPage: number = 0;
   public nbPages: number = 0;
   public nbLivresOnPage: number = 25;
+  public nbLivresTotal: number = this.nbLivresOnPage;
   public pages: number[] = [];
 
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Variables de pagination
-    this.currentPage = 7;
+    this.currentPage = 0;
 
     // Récupération des livres et de la pagination
     this.reloadLivres();
@@ -45,14 +46,22 @@ export class LivresListComponent {
   }
 
   reloadLivres() {
-    this.apiService.getLivres().subscribe((data: Livre[]) => {
-      this.livres = data;
+    // Récupération du nombre total de livres
+    this.apiService.getNbTotalLivres().subscribe((nb: number) => {
+
+      // Récupération des livres dans l'intervalle de pagination
+      this.apiService.getFilteredLivres(this.currentPage*this.nbLivresOnPage, this.nbLivresOnPage).subscribe((data: Livre[]) => {
+        this.livres = data;
+      });
+
+      // Mise à jour de la pagination
+      this.nbLivresTotal = nb;
       this.reloadPages();
     });
   }
 
   reloadPages() {
-    this.nbPages = Math.ceil(this.livres.length / this.nbLivresOnPage);
+    this.nbPages = Math.ceil(this.nbLivresTotal / this.nbLivresOnPage);
     this.pages = Array(this.nbPages).fill(0).map((x,i)=>i);
   }
 
