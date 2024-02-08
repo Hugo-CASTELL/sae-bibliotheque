@@ -21,6 +21,14 @@ class EmpruntRepository extends ServiceEntityRepository
         parent::__construct($registry, Emprunt::class);
     }
 
+    public function save(Emprunt $entity, bool $flush = false): void 
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
 //    /**
 //     * @return Emprunt[] Returns an array of Emprunt objects
 //     */
