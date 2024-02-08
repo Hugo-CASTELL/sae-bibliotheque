@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Emprunt;
@@ -17,7 +19,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 
-class AddEmpruntController extends AbstractDashboardController
+use App\Form\AddEmpruntResa;
+use App\Entity\Reservations;
+
+class AddEmpruntController extends AbstractController
 {
     #[Route('/biblio/addEmprunt', name: 'add_emprunt')]
     public function addEmprunt(Request $request, EmpruntRepository $empruntRepository): Response
@@ -55,15 +60,32 @@ class AddEmpruntController extends AbstractDashboardController
         ]);
     }
 
-    public function configureDashboard(): Dashboard
-    {
-        return Dashboard::new()
-            ->setTitle('Backend');
-    }
 
-    public function configureMenuItems(): iterable
+    #[Route('/biblio/addEmpruntResa', name: 'add_emprunt_resa')]
+    public function addEmpruntResa(Request $request, EmpruntRepository $empruntRepository): Response
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        $form = $this->createFormBuilder()
+            ->add('reservation', EntityType::class, [
+                'class' => Reservations::class,
+                'choice_label' => function (Reservations $reservations) {
+                    return $reservations->getAdherent()->getNom() . ' ' . $reservations->getAdherent()->getPrenom() . ' - ' . $reservations->getLivre()->getTitre();
+                }
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $empruntRepository->addEmpruntResa($data['reservation']);
+
+            return $this->redirectToRoute('bilbio');
+        }
+
+
+        return $this->render('admin/addEmpruntbiblioResaDashboard.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
