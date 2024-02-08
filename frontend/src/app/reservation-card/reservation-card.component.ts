@@ -13,6 +13,7 @@ export class ReservationCardComponent {
 
   @Input() id?: number;
 
+  idLivre?: number = undefined;
   photoLivre?: string = "";
   titreLivre?: string = "";
   dateReservation?: string = "";
@@ -27,6 +28,7 @@ export class ReservationCardComponent {
   ngOnInit() {
     console.log(this.id);
     this.apiService.getReservation(this.id).subscribe((res: Reservations) => {
+      this.idLivre = res.livre.id;
       this.photoLivre = res.livre.photoCouverture;
       this.titreLivre = res.livre.titre;
       if (res && res.dateResa) {
@@ -46,5 +48,9 @@ export class ReservationCardComponent {
     (error) => {
       this.cancelReservationFailed = true;
     });
+  }
+
+  bookDetails() {
+    this.router.navigate(['../livre/'+this.idLivre], { relativeTo: this.route });
   }
 }

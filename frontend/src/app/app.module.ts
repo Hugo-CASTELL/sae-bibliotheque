@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { LoginComponent } from './login/login.component';
 import { AccountComponent } from './account/account.component';
+import { LivreDetailsComponent } from './livre-details/livre-details.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ReservationCardComponent } from './reservation-card/reservation-card.component';
 
@@ -17,6 +18,7 @@ import { ReservationCardComponent } from './reservation-card/reservation-card.co
     LivresListComponent,
     LoginComponent,
     AccountComponent,
+    LivreDetailsComponent,
     ReservationComponent,
     ReservationCardComponent
   ],

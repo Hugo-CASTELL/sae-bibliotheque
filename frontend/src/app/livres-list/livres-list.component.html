@@ -69,11 +69,12 @@
   <div class="row">
     <div class="col-md-3" *ngFor="let livre of livres">
       <div class="card m-3">
-        <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre">
+        <img [src]="livre.photoCouverture" class="card-img-top" alt="livre.titre" [routerLink]="['/livre', livre.id]" style="cursor: pointer;">
         <div class="card-body">
           <h5 class="card-title">{{livre.titre}}</h5>
-          <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary">Réserver</button>
-          <button *ngIf="user && livre.id" [disabled]="(user.reservations && user.reservations.length >= 3) || !canReserveBook(livre.id)" (click)="createReservation(livre.id)" class="btn btn-primary">Réserver</button>
+          <button *ngIf="!user" [routerLink]="['/login']" class="btn btn-primary me-2">Réserver</button>
+          <button *ngIf="user && livre.id" [disabled]="(user.reservations && user.reservations.length >= 3) || !canReserveBook(livre.id)" (click)="createReservation(livre.id)" class="btn btn-primary me-2">Réserver</button>
+          <button type="submit" class="btn btn-outline-primary" (click)="bookDetails(livre.id)">Details</button>
         </div>
       </div>
     </div>

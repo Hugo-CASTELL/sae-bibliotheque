@@ -30,6 +30,10 @@ export class ApiService {
     return this.http.get<Adherent>(`${this.apiUrl}/user/me`, this.getHttpHeader());
   }
 
+  getLivre(id: number): Observable<Livre> {
+    return this.http.get<Livre>(`${this.apiUrl}/livres/${id}`);
+  }
+
   getLivres(): Observable<Livre[]> {
     return this.http.get<Livre[]>(`${this.apiUrl}/livres`);
   }

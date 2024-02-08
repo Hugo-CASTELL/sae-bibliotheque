@@ -26,7 +26,7 @@ export class LoginComponent {
         console.log('Connexion réussie');
         this.router.navigate(['../livres'], { relativeTo: this.route });
       } else {
-        this.errorMessage = "Adresse mail ou Mot de passe invalide. Veuillez réessayer";
+        this.errorMessage = "Adresse mail ou mot de passe invalide. Veuillez réessayer";
         console.log('Échec de la connexion');
       }
     });
