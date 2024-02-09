@@ -19,6 +19,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\AdherentRepository;
+use App\Repository\ReservationsRepository;
 
 use App\Form\AddEmpruntResa;
 use App\Entity\Reservations;
@@ -71,7 +72,10 @@ class AddEmpruntController extends AbstractController
                 'class' => Reservations::class,
                 'choice_label' => function (Reservations $reservations) {
                     return $reservations->getAdherent()->getNom() . ' ' . $reservations->getAdherent()->getPrenom() . ' - ' . $reservations->getLivre()->getTitre();
-                }
+                },
+                'query_builder' => function (ReservationsRepository $rr): QueryBuilder {
+                    return $rr->reservationsDispo();
+                },
             ])
             ->getForm();
 

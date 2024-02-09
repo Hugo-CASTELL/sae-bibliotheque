@@ -38,14 +38,6 @@ class AdherentRepository extends ServiceEntityRepository
 //    }
 
     public function adherentDispo(): QueryBuilder {
-        // return $this->createQueryBuilder('a')
-        //     // ->from('App\Entity\Adherent', 'a1')
-        //     ->join('App\Entity\Emprunt', 'e')
-        //     ->andWhere('e.adherent = a')
-        //     ->andWhere('e.dateRetour IS NULL')
-        //     ->groupBy('a.id')
-        //     ->having('COUNT(e.id) < 5');
-
         $qb = $this->createQueryBuilder('a');
 
         $qb->andWhere(
