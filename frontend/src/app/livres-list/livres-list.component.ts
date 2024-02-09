@@ -26,7 +26,8 @@ export class LivresListComponent {
 
   public currentPage: number = 0;
   public nbPages: number = 0;
-  public nbLivresOnPage: number = 25;
+  public nbLivresPossibilities: number[] = [25, 50, 100];
+  public selectedNbLivresOnPage: number = this.nbLivresPossibilities[0];
   public nbLivresTotal: number = 0;
   public pages: number[] = [];
   public noResult: boolean = false;
@@ -64,7 +65,7 @@ export class LivresListComponent {
     this.apiService.getNbTotalLivres(this.constructAdditionalFilter()).subscribe((nb: number) => {
 
       // Récupération des livres dans l'intervalle de pagination
-      this.apiService.getFilteredLivres(this.currentPage, this.nbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
+      this.apiService.getFilteredLivres(this.currentPage, this.selectedNbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
         this.livres = data;
         console.log(data);
         if (data.length == 0) {
@@ -81,7 +82,7 @@ export class LivresListComponent {
   }
 
   reloadPages() {
-    this.nbPages = Math.ceil(this.nbLivresTotal / this.nbLivresOnPage);
+    this.nbPages = Math.ceil(this.nbLivresTotal / this.selectedNbLivresOnPage);
     this.pages = Array(this.nbPages).fill(0).map((x,i)=>i);
   }
 
