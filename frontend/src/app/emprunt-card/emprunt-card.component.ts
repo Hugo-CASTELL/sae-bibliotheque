@@ -19,9 +19,9 @@ export class EmpruntCardComponent {
     return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
   }
 
-  public get tempsRestant(): string {
+  public get tempsRestant(): number {
     if (!this.emprunt || !this.emprunt.dateEmprunt) {
-      return "";
+      return 0;
     }
 
     let dateEmprunt = new Date(this.emprunt.dateEmprunt);
@@ -29,7 +29,13 @@ export class EmpruntCardComponent {
 
     let Difference_In_Time = dateActuelle.getTime() - dateEmprunt.getTime();
     let Difference_In_Days = Math.round (Difference_In_Time / (1000 * 3600 * 24));
-    let joursRestants = 21 - Difference_In_Days;
+    let joursRestants = 22 - Difference_In_Days;
+
+    return joursRestants;
+  }
+
+  public get tempsRestantString(): string {
+    let joursRestants = this.tempsRestant;
 
     return joursRestants < 0 ? `${-joursRestants} jours de retard` : `${joursRestants} jours restants`;
 
