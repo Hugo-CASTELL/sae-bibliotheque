@@ -67,7 +67,6 @@ export class LivresListComponent {
       // Récupération des livres dans l'intervalle de pagination
       this.apiService.getFilteredLivres(this.currentPage, this.selectedNbLivresOnPage, this.constructAdditionalFilter()).subscribe((data: Livre[]) => {
         this.livres = data;
-        console.log(data);
         if (data.length == 0) {
           this.noResult = true;
         } else {
@@ -155,8 +154,6 @@ export class LivresListComponent {
       additionalFilter += "&auteur_prenom=" + this.searchAuteurPrenom;
     }
 
-    console.log("Additional filter");
-    console.log(additionalFilter);
     return additionalFilter;
   }
 

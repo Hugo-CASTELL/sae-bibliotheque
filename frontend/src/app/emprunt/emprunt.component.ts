@@ -26,24 +26,8 @@ export class EmpruntComponent {
       }
       else {
         this.emprunts = response.adherent.emprunts.filter((emprunt: any) => { return emprunt.dateRetour === null});
-
-        // for (let emprunt of this.emprunts) {
-        //   if(emprunt.id){
-        //     this.apiService.getEmprunt(emprunt.id).subscribe((response: any) => {
-        //       if (response.livre) {
-        //         emprunt.livre = response.livre;
-        //       }
-        //     })
-        //   }
-        // }
-        console.log("Emprunts utilisateur (page emprunt) :");
-        console.log(this.emprunts);
       }
     });
-  }
-
-  deleteReservation(id: number) {
-    console.log("Delete réservation " + id);
   }
 
   navigateToLoginPage() {

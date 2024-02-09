@@ -30,7 +30,6 @@ export class AccountComponent {
     });
 
     this.apiService.getUser().subscribe((response) => {
-      console.log(response);
       if(!response.adherent) {
         this.isAdherent = false;
       }
@@ -47,8 +46,6 @@ export class AccountComponent {
       data => {
         this.confirmationMessage = "Vos informations personnelles ont bien été mises à jour !";
         this.errorMessage = "";
-        console.log(this.mailBeforeUpdate);
-        console.log(this.user.email);
         if (this.mailBeforeUpdate != this.user.email) {
           this.authService.logOut();
           this.navigateToLoginPage();

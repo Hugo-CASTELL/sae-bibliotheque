@@ -44,12 +44,10 @@ export class ApiService {
   }
 
   getFilteredLivres(offset: number, limit: number, additionalFilter: string): Observable<Livre[]> {
-    console.log(`${this.apiUrl}/livres/search?offset=${offset}&limit=${limit}${additionalFilter}`);
     return this.http.get<Livre[]>(`${this.apiUrl}/livres/search?offset=${offset}&limit=${limit}${additionalFilter}`);
   }
 
   getNbTotalLivres(additionalFilter: string): Observable<number> {
-    console.log(`${this.apiUrl}/livres/total?limit=50000${additionalFilter}`);
     return this.http.get<number>(`${this.apiUrl}/livres/total?limit=50000${additionalFilter}`);
   }
 

@@ -26,14 +26,8 @@ export class ReservationComponent {
       }
       else {
         this.reservations = response.adherent.reservations;
-        console.log("Réservations utilisateur (page réservation) :");
-        console.log(this.reservations);
       }
     });
-  }
-
-  deleteReservation(id: number) {
-    console.log("Delete réservation " + id);
   }
 
   navigateToLoginPage() {
@@ -43,7 +37,7 @@ export class ReservationComponent {
   navigateToAccountPage() {
     this.router.navigate(['../account'], { relativeTo: this.route });
   }
-  
+
 }
 
 document.addEventListener("DOMContentLoaded", function () {
