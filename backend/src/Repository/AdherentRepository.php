@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Adherent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,6 +36,43 @@ class AdherentRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+
+    public function adherentDispo(): QueryBuilder {
+        // return $this->createQueryBuilder('a')
+        //     // ->from('App\Entity\Adherent', 'a1')
+        //     ->join('App\Entity\Emprunt', 'e')
+        //     ->andWhere('e.adherent = a')
+        //     ->andWhere('e.dateRetour IS NULL')
+        //     ->groupBy('a.id')
+        //     ->having('COUNT(e.id) < 5');
+
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->in('a.id',
+                    $this->_em->createQueryBuilder()
+                        ->select('a1.id')
+                        ->from('App\Entity\Adherent', 'a1')
+                        ->join('a1.emprunts', 'e')
+                        ->andWhere('e.dateRetour IS NULL')
+                        ->groupBy('a1.id')
+                        ->having('COUNT(e.id) < 5')
+                        ->getDQL()
+                ),
+                $qb->expr()->notIn('a.id',
+                    $this->_em->createQueryBuilder()
+                        ->select('a2.id')
+                        ->from('App\Entity\Adherent', 'a2')
+                        ->join('a2.emprunts', 'e2')
+                        ->andWhere('e2.dateRetour IS NULL')
+                        ->getDQL()
+                )
+            )
+        );
+
+        return $qb;
+    }
 
     public function findHasEmprunts(): array
     {

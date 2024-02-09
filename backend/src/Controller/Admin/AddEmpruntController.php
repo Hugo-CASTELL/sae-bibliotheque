@@ -18,6 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\AdherentRepository;
 
 use App\Form\AddEmpruntResa;
 use App\Entity\Reservations;
@@ -33,6 +34,9 @@ class AddEmpruntController extends AbstractController
         $form = $this->createFormBuilder($emprunt)
             ->add('adherent', EntityType::class, [
                 'class' => Adherent::class,
+                'query_builder' => function (AdherentRepository $ar): QueryBuilder {
+                    return $ar->adherentDispo();
+                },
             ])
             ->add('livre', EntityType::class, [
                 'class' => Livre::class,
