@@ -28,7 +28,6 @@ export class LivreDetailsComponent {
       // Récupération du livre
       this.apiService.getLivre(this.id).subscribe((data: Livre) => {
         this.livre = data;
-        console.log(this.livre);
       });
     });
   }

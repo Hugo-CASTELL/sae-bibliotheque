@@ -23,11 +23,9 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.input).subscribe((success) => {
       if (success) {
-        console.log('Connexion réussie');
         this.router.navigate(['../livres'], { relativeTo: this.route });
       } else {
         this.errorMessage = "Adresse mail ou mot de passe invalide. Veuillez réessayer";
-        console.log('Échec de la connexion');
       }
     });
   }

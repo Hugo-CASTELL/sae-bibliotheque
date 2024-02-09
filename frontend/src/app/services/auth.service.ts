@@ -36,7 +36,6 @@ export class AuthService {
           return of(false);
         }),
         catchError(error => {
-          console.error("Error while obtaining token", error);
           return of(false);
         })
       );
@@ -64,7 +63,6 @@ export class AuthService {
         return of(false);
       }),
       catchError(error => {
-        console.log("Current user is not connected");
         return of(false);
       })
     )
