@@ -10,7 +10,6 @@ import { outputLogin } from '../models/api/output/outputLogin';
 import { Categorie } from '../models/categorie';
 import { Adherent } from '../models/adherent';
 import { Reservations } from '../models/reservations';
-import { Emprunt } from '../models/emprunt';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +28,6 @@ export class ApiService {
 
   getUser(): Observable<any> {
     return this.http.get<Adherent>(`${this.apiUrl}/user/me`, this.getHttpHeader());
-  }
-
-  getEmprunt(id: number): Observable<Emprunt> {
-    return this.http.get<Emprunt>(`${this.apiUrl}/emprunts/${id}`);
   }
 
   getLivre(id: number): Observable<Livre> {
