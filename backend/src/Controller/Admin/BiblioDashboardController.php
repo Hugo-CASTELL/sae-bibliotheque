@@ -24,8 +24,8 @@ class BiblioDashboardController extends AbstractDashboardController
 {
 
     public function __construct(
-        private AdherentRepository $adherentRepository,
-        private EmpruntRepository $empruntRepository,
+        protected AdherentRepository $adherentRepository,
+        protected EmpruntRepository $empruntRepository,
     ) {}
 
     #[Route('/biblio', name: 'biblio')]
