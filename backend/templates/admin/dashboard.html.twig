@@ -1,0 +1,133 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    {# <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre d'emprunts</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ emprunts | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre de livres</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ livres  | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre d'adhérents</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ adherents | length }}</h1>
+                </div>
+            </div>
+        </div>
+    </div> #}
+    <div class="row row-cols-2 mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre d'emprunts</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ emprunts | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre d'emprunts en cours</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ empruntsEnCours | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre de livres</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ livres  | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre de livres disponibles</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ livreDispo | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre d'adherents</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ adherents | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Nombre de réservations</h3>
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center">{{ reservations | length }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Utilisateurs avec emprunts en cours sans retard</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for adherent in adwithempruntsatemps %}
+                        <li>
+                            <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
+                                {{ adherent.nom | upper }} {{ adherent.prenom }}  {{ empruntsenc|filter(item => item.adherent.id == adherent.id)|length }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Utilisateurs avec emprunts en cours avec retard</h3>
+                </div>
+                <div class="card-body">
+                    {% for adherent in adwithempruntsenretard %}
+                    <li>
+                        <a href="{{ path('detail_emprunteur', {'id': adherent.id}) }}">
+                            {{ adherent.nom | upper }} {{ adherent.prenom }} {{ empruntsenret|filter(item => item.adherent.id == adherent.id)|length }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

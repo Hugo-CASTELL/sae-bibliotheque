@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <h1>Enregistrer un emprunt à partir d'une résevation</h1>
+        <div class="form">
+            <div class="form-field mb-3">
+                <label for="form_reservation" class="form-label">Réservation</label>
+                <select id="form_reservation" name="{{ field_name(form.reservation) }}" class="form-control">
+                    {% for label, value in field_choices(form.reservation) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn full">{{ button_label|default('Enregistrer un emprunt') }}</button>
+
+    {{ form_end(form) }}
+{% endblock %}

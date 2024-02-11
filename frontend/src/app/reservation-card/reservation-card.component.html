@@ -1,0 +1,13 @@
+<div class="card">
+    <img src="{{photoLivre}}" class="card-img-top" alt="reservation.livre.titre" [routerLink]="['/livre', idLivre]" style="cursor: pointer;"/>
+    <div class="card-body">
+      <div class="alert alert-danger" role="alert" *ngIf="cancelReservationFailed">
+        Une erreur inattendue est survenue, réessayer plus tard
+      </div>
+      <h5 class="card-title mb-4">{{titreLivre}}</h5>
+      <p class="card-text">Date de réservation : {{dateReservation}}</p>
+      <p class="card-text">Temps avant expiration : {{joursRestants}} jours</p>
+      <button type="submit" class="btn btn-danger me-2" (click)="deleteReservation()">Annuler</button>
+      <button type="submit" class="btn btn-outline-primary" (click)="bookDetails()">Details</button>
+    </div>
+</div>

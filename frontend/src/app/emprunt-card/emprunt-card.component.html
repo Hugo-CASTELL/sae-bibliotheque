@@ -1,0 +1,13 @@
+<div class="card">
+  <img *ngIf="emprunt && emprunt.livre && emprunt.livre.photoCouverture" [src]="emprunt.livre.photoCouverture" class="card-img-top" [routerLink]="['/livre', emprunt.livre.id]" style="cursor: pointer;"/>
+  <div class="card-body">
+    <style>
+      .red-text {
+        color: red;
+      }
+    </style>
+    <h5 *ngIf="emprunt && emprunt.livre && emprunt.livre.titre" class="card-title mb-4">{{emprunt.livre.titre}}</h5>
+    <p class="card-text">Emprunté le {{ dateEmpruntString }}</p>
+    <p class="card-text" [ngClass]="{'red-text': tempsRestant < 0}"><strong>{{ tempsRestantString }}</strong></p>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <h1>Emprunt</h1>
+        <div class="form">
+            <div class="form-field mb-3">
+                <label for="form_adherent" class="form-label">Adherent</label>
+                <select id="form_adherent" name="{{ field_name(form.adherent) }}" class="form-control">
+                    {% for label, value in field_choices(form.adherent) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-field mb-3">
+                <label for="form_livre" class="form-label">Livre</label>
+                <select id="form_livre" name="{{ field_name(form.livre) }}" class="form-control">
+                    {% for label, value in field_choices(form.livre) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn full">{{ button_label|default('Enregistrer') }}</button>
+
+    {{ form_end(form) }}
+{% endblock %}

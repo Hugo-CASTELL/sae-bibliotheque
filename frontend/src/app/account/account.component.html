@@ -1,0 +1,85 @@
+<div class="mb-4 row" *ngIf="isAdherent">
+    <h1>Espace adhérent</h1>
+</div>
+
+<div class="alert alert-warning" role="alert" *ngIf="!isAdherent">
+    Veuillez vous créer un compte adhérent via EasyAdmin pour pouvoir utiliser les fonctionnalités adhérent
+</div>
+
+<form (ngSubmit)="onSubmit()" *ngIf="isAdherent">
+    <div class="mb-3 row">
+        <label for="id" class="col-sm-2 col-form-label">Id</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" name="id" id="id" [(ngModel)]="user.id" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="name" class="col-sm-2 col-form-label">Nom</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" value="Testa" [(ngModel)]="user.nom" disabled>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="surname" class="col-sm-2 col-form-label">Prénom</label>
+        <div class="col-sm-10">
+            <input type="surname" class="form-control" id="surname" name="surname" value="Thomas" [(ngModel)]="user.prenom" disabled>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="email" name="email" value="thomastesta@gmail.com" [(ngModel)]="user.email">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="birthday" class="col-sm-2 col-form-label">Date de naissance</label>
+        <div class="col-sm-10">
+            <input type="datetime" class="form-control" id="birthday" name="birthday" [(ngModel)]="user.dateNaissance" disabled>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="adhesion" class="col-sm-2 col-form-label">Date d'adhésion</label>
+        <div class="col-sm-10">
+            <input type="datetime" class="form-control" id="adhesion" name="adhesion" [(ngModel)]="user.dateAdhesion" disabled>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="location" class="col-sm-2 col-form-label">Adresse</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="location" name="location" value="6601 Toy Prairie Apt. 541 Lucindaborough, CO 19286-7007" [(ngModel)]="user.adressePostale">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="phone" class="col-sm-2 col-form-label">Téléphone</label>
+        <div class="col-sm-10">
+            <input type="phone" class="form-control" id="phone" name="phone" value="239-207-6604" [(ngModel)]="user.numTel">
+        </div>
+    </div>
+    <div class="mb-5 row">
+        <label for="picture" class="col-sm-2 col-form-label">Photo (url)</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="picture" name="picture" value="https://via.placeholder.com/640x480.png/00aa77?text=inventore" [(ngModel)]="user.photo">
+        </div>
+    </div>
+    <div class="mb-5 row">
+        <label for="newPassword" class="col-sm-2 col-form-label">Nouveau mot de passe</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="newPassword" name="newPassword" disabled>
+        </div>
+    </div>
+    <div class="alert alert-success" role="alert" *ngIf="confirmationMessage">
+        {{confirmationMessage}}
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
+    </div>
+    <div class="mb-3 row">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Modifier</button>
+        </div>
+    </div>
+</form>
+
+<form (ngSubmit)="logout()">
+    <button type="submit" class="btn btn-danger">Se déconnecter</button>
+</form>
